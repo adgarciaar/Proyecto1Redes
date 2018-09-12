@@ -35,7 +35,7 @@ public class TestGauge {
         };
 
         final Radial gauge = new Radial();
-        gauge.setTitle("Velocidad");
+        gauge.setTitle("Throughput");
         gauge.setUnitString("Mbps");
 
         panel.setLayout(new BorderLayout());
@@ -43,16 +43,17 @@ public class TestGauge {
         frame.add(panel);
 
         JPanel buttonsPanel = new JPanel();
-        JLabel valueLabel = new JLabel("Value:");
+        //JLabel valueLabel = new JLabel("Value:");
 
-        final JTextField valueField = new JTextField(7);
-        valueField.setText("30");
+        //final JTextField valueField = new JTextField(7);
+        //valueField.setText("30");
         JButton button = new JButton("Set");
         button.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    double value = Double.valueOf(valueField.getText());
+                    //double value = Double.valueOf(valueField.getText());
+                    double value = (Math.random() * ((100 - 0) + 1)) + 0;
                     gauge.setValueAnimated(value);
                 } catch(NumberFormatException ex) { 
                     //TODO - handle invalid input 
@@ -61,8 +62,8 @@ public class TestGauge {
             }
         });
 
-        buttonsPanel.add(valueLabel);
-        buttonsPanel.add(valueField);
+        //buttonsPanel.add(valueLabel);
+        //buttonsPanel.add(valueField);
         buttonsPanel.add(button);
 
         frame.add(buttonsPanel, BorderLayout.NORTH);
