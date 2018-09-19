@@ -91,6 +91,8 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
         this.gaugeEnviado.setValueAnimated(throughputEnviado);
         this.anchoBanda = test.getAnchoBanda()/1000000;
         this.jLabelAnchoBanda.setText("Ancho de banda: "+round(this.anchoBanda,2)+" Mbps");
+        this.gaugeRecibido.setMaxValue(this.anchoBanda);
+        this.gaugeEnviado.setMaxValue(this.anchoBanda);
         
         if(this.throughputRecibido < 1){
             this.jLabelRecibido.setText("Recibido: "+round(throughputRecibido*1000, 2)+" Kbps");
