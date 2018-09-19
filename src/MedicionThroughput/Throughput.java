@@ -22,6 +22,7 @@ public class Throughput extends TimerTask {
     
     private int bytesRecibidos;
     private int bytesEnviados;
+    private int anchoBanda;
 
     public Throughput() {
     }  
@@ -41,7 +42,16 @@ public class Throughput extends TimerTask {
     public void setBytesEnviados(int bytesEnviados) {
         this.bytesEnviados = bytesEnviados;
     }
+
+    public int getAnchoBanda() {
+        return anchoBanda;
+    }
+
+    public void setAnchoBanda(int anchoBanda) {
+        this.anchoBanda = anchoBanda;
+    }   
     
+    @Override
     public void run() {
         String host = "localhost"; //Technically you should be able to connect to other hosts, but it takes setup
         String connectStr = String.format("winmgmts:\\\\%s\\root\\CIMV2", host);
@@ -60,13 +70,11 @@ public class Throughput extends TimerTask {
             //Dispatch.call returns a Variant which we can convert to a java form.
             String BytesReceivedPerSec = Dispatch.call(item,"BytesReceivedPerSec").toString();
             String BytesSentPerSec = Dispatch.call(item,"BytesSentPerSec").toString();
-            
-            //System.out.println("BytesReceivedPerSec = " + BytesReceivedPerSec);
-            //System.out.println("BytesSentPerSec = " + BytesSentPerSec);
-            
+            String CurrentBandwidth = Dispatch.call(item,"CurrentBandwidth").toString();
+                        
             this.bytesRecibidos = Integer.parseInt(BytesReceivedPerSec);
             this.bytesEnviados = Integer.parseInt(BytesSentPerSec);
-                        
+            this.anchoBanda = Integer.parseInt(CurrentBandwidth);                        
 	}       
     }
     

@@ -23,7 +23,7 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
     private final Radial gaugeEnviado;
     
     private int contador;
-    private int recibidoAntes, enviadoAntes, diferenciaRecibido, diferenciaEnviado;
+    private long recibidoAntes, enviadoAntes, diferenciaRecibido, diferenciaEnviado, anchoBanda;
     private double throughputEnviado, throughputRecibido;
     private final Throughput test;
     
@@ -32,23 +32,30 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
      * @param ventanaInicio
      */
     public Odometro(JFrame ventanaInicio) {
+        
         initComponents();
         this.ventanaInicio = ventanaInicio;
+        
+        this.test = new Throughput();
+        test.run();
+        this.anchoBanda = test.getAnchoBanda()/1000000;
+        
         this.gaugeRecibido= new Radial();
         this.gaugeRecibido.setTitle("Recibido");
         this.gaugeRecibido.setUnitString("Mbps");
+        this.gaugeRecibido.setMaxValue(this.anchoBanda);
         this.jPanel1.setLayout(new BorderLayout());
         this.jPanel1.add(this.gaugeRecibido, BorderLayout.CENTER);
         
         this.gaugeEnviado= new Radial();
         this.gaugeEnviado.setTitle("Enviado");
         this.gaugeEnviado.setUnitString("Mbps");
+        this.gaugeEnviado.setMaxValue(this.anchoBanda);
         this.jPanel2.setLayout(new BorderLayout());
         this.jPanel2.add(this.gaugeEnviado, BorderLayout.CENTER);
         
-        this.pack();
+        this.pack();      
         
-        this.test = new Throughput();
         this.contador = 0;
         this.throughputRecibido = 0;
         this.throughputEnviado = 0;
@@ -62,7 +69,8 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
             this.recibidoAntes = test.getBytesRecibidos();
             this.enviadoAntes = test.getBytesEnviados();                
         }
-        if(this.contador > 1){       
+        if(this.contador > 1){ 
+            this.contador = 2;
             this.recibidoAntes = test.getBytesRecibidos();
             this.enviadoAntes = test.getBytesEnviados();  
             this.test.run();
@@ -79,6 +87,7 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
         
         this.gaugeRecibido.setValueAnimated(throughputRecibido);
         this.gaugeEnviado.setValueAnimated(throughputEnviado);
+        this.anchoBanda = test.getAnchoBanda()/1000000;
         
         if(this.throughputRecibido < 1){
             this.textFieldRecibido.setText(round(throughputRecibido*1000, 2)+" Kbps");
