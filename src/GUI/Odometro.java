@@ -39,7 +39,9 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
         this.test = new Throughput();
         test.run();
         this.anchoBanda = test.getAnchoBanda()/1000000;
+        this.jLabelAnchoBanda.setText("Ancho de banda: "+round(this.anchoBanda,2)+" Mbps");
         
+        //System.out.println("ancho de banda="+this.anchoBanda);
         this.gaugeRecibido= new Radial();
         this.gaugeRecibido.setTitle("Recibido");
         this.gaugeRecibido.setUnitString("Mbps");
@@ -88,17 +90,18 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
         this.gaugeRecibido.setValueAnimated(throughputRecibido);
         this.gaugeEnviado.setValueAnimated(throughputEnviado);
         this.anchoBanda = test.getAnchoBanda()/1000000;
+        this.jLabelAnchoBanda.setText("Ancho de banda: "+round(this.anchoBanda,2)+" Mbps");
         
         if(this.throughputRecibido < 1){
-            this.textFieldRecibido.setText(round(throughputRecibido*1000, 2)+" Kbps");
+            this.jLabelRecibido.setText("Recibido: "+round(throughputRecibido*1000, 2)+" Kbps");
         }else{
-            this.textFieldRecibido.setText(round(throughputRecibido, 2)+" Mbps");
+            this.jLabelRecibido.setText("Recibido: "+round(throughputRecibido, 2)+" Mbps");
         }
         
         if(this.throughputEnviado < 1){
-            this.textFieldEnviado.setText(round(throughputEnviado*1000, 2)+" Kbps");
+            this.jLabelEnviado.setText("Enviado: "+round(throughputEnviado*1000, 2)+" Kbps");
         }else{
-            this.textFieldEnviado.setText(round(throughputEnviado, 2)+" Mbps");
+            this.jLabelEnviado.setText("Enviado: "+round(throughputEnviado, 2)+" Mbps");
         }       
     }
     
@@ -126,10 +129,9 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
         buttonRegresar = new javax.swing.JButton();
         buttonSalir = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        textFieldEnviado = new java.awt.TextField();
-        textFieldRecibido = new java.awt.TextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jLabelEnviado = new javax.swing.JLabel();
+        jLabelRecibido = new javax.swing.JLabel();
+        jLabelAnchoBanda = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -144,7 +146,7 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 380, Short.MAX_VALUE)
         );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
@@ -175,95 +177,69 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        textFieldEnviado.setEnabled(false);
-        textFieldEnviado.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        textFieldEnviado.setText("0.0 Kbps");
-        textFieldEnviado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldEnviadoActionPerformed(evt);
-            }
-        });
+        jLabelEnviado.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabelEnviado.setText("Enviado: 0.00 Kbps");
 
-        textFieldRecibido.setEnabled(false);
-        textFieldRecibido.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        textFieldRecibido.setText("0.0 Kbps");
-        textFieldRecibido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldRecibidoActionPerformed(evt);
-            }
-        });
+        jLabelRecibido.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabelRecibido.setText("Recibido: 0.00 Kbps");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel2.setText("Enviado");
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel3.setText("Recibido");
+        jLabelAnchoBanda.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabelAnchoBanda.setText("Ancho de banda: 0.0 Mbps");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(295, 295, 295)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(95, 95, 95)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(46, 46, 46)
-                        .addComponent(textFieldRecibido, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(161, 161, 161)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(47, 47, 47)
-                        .addComponent(textFieldEnviado, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)))
-                .addGap(83, 83, 83))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(221, 221, 221)
                 .addComponent(buttonRegresar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buttonSalir)
                 .addGap(223, 223, 223))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(95, 95, 95)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(171, 171, 171)
+                            .addComponent(jLabelRecibido))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabelEnviado)
+                        .addGap(170, 170, 170))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelAnchoBanda)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(83, 83, 83))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(textFieldEnviado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(buttonRegresar)
-                            .addComponent(buttonSalir))
-                        .addContainerGap(28, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jLabel3))
-                            .addComponent(textFieldRecibido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                    .addComponent(jLabelAnchoBanda))
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelEnviado)
+                    .addComponent(jLabelRecibido))
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonRegresar)
+                    .addComponent(buttonSalir))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
@@ -278,23 +254,14 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
         this.ventanaInicio.setVisible(true);
     }//GEN-LAST:event_buttonRegresarActionPerformed
 
-    private void textFieldEnviadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldEnviadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldEnviadoActionPerformed
-
-    private void textFieldRecibidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldRecibidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldRecibidoActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonRegresar;
     private javax.swing.JButton buttonSalir;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelAnchoBanda;
+    private javax.swing.JLabel jLabelEnviado;
+    private javax.swing.JLabel jLabelRecibido;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private java.awt.TextField textFieldEnviado;
-    private java.awt.TextField textFieldRecibido;
     // End of variables declaration//GEN-END:variables
 }
