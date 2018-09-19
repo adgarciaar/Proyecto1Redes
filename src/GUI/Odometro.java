@@ -73,9 +73,6 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
             this.throughputRecibido = (double)(diferenciaRecibido*8)/1000000;
             this.throughputEnviado = (double)(diferenciaEnviado*8)/1000000;
                 
-            //System.out.println("recibidos="+diferenciaRecibidos);
-            //System.out.println("enviados="+diferenciaEnviados);   
-                
             //System.out.println("throughputRecibidos="+throughputRecibidos);
             //System.out.println("throughputEnviados="+throughputEnviados);                
         }      
@@ -224,11 +221,11 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
                         .addGap(42, 42, 42)))
                 .addGap(83, 83, 83))
             .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
+                .addGap(221, 221, 221)
                 .addComponent(buttonRegresar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buttonSalir)
-                .addGap(162, 162, 162))
+                .addGap(223, 223, 223))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
