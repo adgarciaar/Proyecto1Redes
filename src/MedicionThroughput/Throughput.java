@@ -20,27 +20,27 @@ import com.jacob.com.Variant;
  */
 public class Throughput extends TimerTask {
     
-    private int recibidos;
-    private int enviados;
+    private int bytesRecibidos;
+    private int bytesEnviados;
 
     public Throughput() {
     }  
 
-    public int getRecibidos() {
-        return recibidos;
+    public int getBytesRecibidos() {
+        return bytesRecibidos;
     }
 
-    public void setRecibidos(int recibidos) {
-        this.recibidos = recibidos;
+    public void setBytesRecibidos(int bytesRecibidos) {
+        this.bytesRecibidos = bytesRecibidos;
     }
 
-    public int getEnviados() {
-        return enviados;
+    public int getBytesEnviados() {
+        return bytesEnviados;
     }
 
-    public void setEnviados(int enviados) {
-        this.enviados = enviados;
-    }   
+    public void setBytesEnviados(int bytesEnviados) {
+        this.bytesEnviados = bytesEnviados;
+    }
     
     public void run() {
         String host = "localhost"; //Technically you should be able to connect to other hosts, but it takes setup
@@ -64,8 +64,8 @@ public class Throughput extends TimerTask {
             //System.out.println("BytesReceivedPerSec = " + BytesReceivedPerSec);
             //System.out.println("BytesSentPerSec = " + BytesSentPerSec);
             
-            this.recibidos = Integer.parseInt(BytesReceivedPerSec);
-            this.enviados = Integer.parseInt(BytesSentPerSec);
+            this.bytesRecibidos = Integer.parseInt(BytesReceivedPerSec);
+            this.bytesEnviados = Integer.parseInt(BytesSentPerSec);
                         
 	}       
     }

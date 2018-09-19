@@ -59,16 +59,16 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
         this.contador++;
         if (this.contador == 1){
             this.test.run();
-            this.recibidosAntes = test.getRecibidos();
-            this.enviadosAntes = test.getEnviados();                
+            this.recibidosAntes = test.getBytesRecibidos();
+            this.enviadosAntes = test.getBytesEnviados();                
         }
         if(this.contador > 1){       
-            this.recibidosAntes = test.getRecibidos();
-            this.enviadosAntes = test.getEnviados();  
+            this.recibidosAntes = test.getBytesRecibidos();
+            this.enviadosAntes = test.getBytesEnviados();  
             this.test.run();
                 
-            this.diferenciaRecibidos = test.getRecibidos()- recibidosAntes;
-            this.diferenciaEnviados = test.getEnviados()- enviadosAntes;
+            this.diferenciaRecibidos = test.getBytesRecibidos()- recibidosAntes;
+            this.diferenciaEnviados = test.getBytesEnviados()- enviadosAntes;
                 
             this.throughputRecibidos = (double)(diferenciaRecibidos*8)/1000000;
             this.throughputEnviados = (double)(diferenciaEnviados*8)/1000000;
