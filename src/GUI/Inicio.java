@@ -115,8 +115,20 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonSalirActionPerformed
 
     private void buttonMedirThroughputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMedirThroughputActionPerformed
-        this.setVisible(false);                   
-        new Odometro(this).setVisible(true);
+        /*this.setVisible(false);                   
+        new Odometro(this).setVisible(true);*/
+        
+        this.setVisible(false);   
+        
+        Odometro frame = new Odometro(this);
+        frame.setDefaultCloseOperation( EXIT_ON_CLOSE );
+        frame.pack();
+        frame.setVisible(true);
+        
+        int time = 1000;
+        javax.swing.Timer timer = new javax.swing.Timer(time, frame);
+        timer.setInitialDelay(1);
+        timer.start();              
     }//GEN-LAST:event_buttonMedirThroughputActionPerformed
 
     /**

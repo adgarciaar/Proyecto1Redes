@@ -5,18 +5,26 @@
  */
 package GUI;
 
-import OdometroGauge.Radial;
+import Odometro.Gauge.Radial;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import MedicionThroughput.Throughput;
 
 /**
  *
  * @author adrian
  */
-public class Odometro extends javax.swing.JFrame {
+public class Odometro extends javax.swing.JFrame implements ActionListener {
 
     private final JFrame ventanaInicio;
     final Radial gauge;
+    
+    private int contador;
+    private int recibidosAntes, enviadosAntes, diferenciaRecibidos, diferenciaEnviados;
+    private double throughputEnviados, throughputRecibidos;
+    private final Throughput test;
     
     /**
      * Creates new form Odometro
@@ -31,6 +39,38 @@ public class Odometro extends javax.swing.JFrame {
         this.jPanel1.setLayout(new BorderLayout());
         this.jPanel1.add(this.gauge, BorderLayout.CENTER);
         this.pack();
+        
+        this.test = new Throughput();
+        this.contador = 0;
+        this.throughputRecibidos = 0;
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e){
+        this.contador++;
+        if (this.contador == 1){
+            this.test.run();
+            this.recibidosAntes = test.getRecibidos();
+            this.enviadosAntes = test.getEnviados();                
+        }
+        if(this.contador > 1){       
+            this.recibidosAntes = test.getRecibidos();
+            this.enviadosAntes = test.getEnviados();  
+            this.test.run();
+                
+            this.diferenciaRecibidos = test.getRecibidos()- recibidosAntes;
+            this.diferenciaEnviados = test.getEnviados()- enviadosAntes;
+                
+            this.throughputRecibidos = (double)(diferenciaRecibidos*8)/1000000;
+            this.throughputEnviados = (double)(diferenciaEnviados*8)/1000000;
+                
+            //System.out.println("recibidos="+diferenciaRecibidos);
+            //System.out.println("enviados="+diferenciaEnviados);   
+                
+            //System.out.println("throughputRecibidos="+throughputRecibidos);
+            //System.out.println("throughputEnviados="+throughputEnviados);                
+        }      
+        this.gauge.setValueAnimated(throughputRecibidos);
     }
 
     /**
