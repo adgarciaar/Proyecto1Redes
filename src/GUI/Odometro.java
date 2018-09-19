@@ -19,7 +19,8 @@ import MedicionThroughput.Throughput;
 public class Odometro extends javax.swing.JFrame implements ActionListener {
 
     private final JFrame ventanaInicio;
-    final Radial gauge;
+    private final Radial gaugeRecibidos;
+    private final Radial gaugeEnviados;
     
     private int contador;
     private int recibidosAntes, enviadosAntes, diferenciaRecibidos, diferenciaEnviados;
@@ -33,16 +34,24 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
     public Odometro(JFrame ventanaInicio) {
         initComponents();
         this.ventanaInicio = ventanaInicio;
-        this.gauge= new Radial();
-        this.gauge.setTitle("Throughput");
-        this.gauge.setUnitString("Mbps");
+        this.gaugeRecibidos= new Radial();
+        this.gaugeRecibidos.setTitle("Recibidos");
+        this.gaugeRecibidos.setUnitString("Mbps");
         this.jPanel1.setLayout(new BorderLayout());
-        this.jPanel1.add(this.gauge, BorderLayout.CENTER);
+        this.jPanel1.add(this.gaugeRecibidos, BorderLayout.CENTER);
+        
+        this.gaugeEnviados= new Radial();
+        this.gaugeEnviados.setTitle("Enviados");
+        this.gaugeEnviados.setUnitString("Mbps");
+        this.jPanel2.setLayout(new BorderLayout());
+        this.jPanel2.add(this.gaugeEnviados, BorderLayout.CENTER);
+        
         this.pack();
         
         this.test = new Throughput();
         this.contador = 0;
         this.throughputRecibidos = 0;
+        this.throughputEnviados = 0;
     }
     
     @Override
@@ -70,7 +79,8 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
             //System.out.println("throughputRecibidos="+throughputRecibidos);
             //System.out.println("throughputEnviados="+throughputEnviados);                
         }      
-        this.gauge.setValueAnimated(throughputRecibidos);
+        this.gaugeRecibidos.setValueAnimated(throughputRecibidos);
+        this.gaugeEnviados.setValueAnimated(throughputEnviados);
     }
 
     /**
@@ -84,9 +94,9 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        buttonMedirThroughput = new javax.swing.JButton();
         buttonRegresar = new javax.swing.JButton();
         buttonSalir = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,13 +116,6 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
 
         jLabel1.setText("Throughtput de la red");
 
-        buttonMedirThroughput.setText("Medir throughtput");
-        buttonMedirThroughput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonMedirThroughputActionPerformed(evt);
-            }
-        });
-
         buttonRegresar.setText("Regresar");
         buttonRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,6 +129,20 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
                 buttonSalirActionPerformed(evt);
             }
         });
+
+        jPanel2.setMinimumSize(new java.awt.Dimension(300, 300));
+        jPanel2.setPreferredSize(new java.awt.Dimension(500, 500));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 351, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 500, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -141,27 +158,29 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(137, 137, 137)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
-                        .addComponent(buttonMedirThroughput)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(162, 162, 162))
             .addGroup(layout.createSequentialGroup()
-                .addGap(212, 212, 212)
+                .addGap(95, 95, 95)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(83, 83, 83))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonMedirThroughput)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonRegresar)
-                    .addComponent(buttonSalir))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(buttonRegresar)
+                            .addComponent(buttonSalir)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -177,16 +196,11 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
         this.ventanaInicio.setVisible(true);
     }//GEN-LAST:event_buttonRegresarActionPerformed
 
-    private void buttonMedirThroughputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMedirThroughputActionPerformed
-        double value = (Math.random() * ((100 - 0) + 1)) + 0;
-        this.gauge.setValueAnimated(value);
-    }//GEN-LAST:event_buttonMedirThroughputActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonMedirThroughput;
     private javax.swing.JButton buttonRegresar;
     private javax.swing.JButton buttonSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
