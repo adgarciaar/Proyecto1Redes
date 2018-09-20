@@ -23,8 +23,8 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
     private final Radial gaugeEnviado;
     
     private int contador;
-    private long recibidoAntes, enviadoAntes, diferenciaRecibido, diferenciaEnviado, anchoBanda;
-    private double throughputEnviado, throughputRecibido;
+    private long recibidoAntes, enviadoAntes, diferenciaRecibido, diferenciaEnviado; 
+    private double anchoBanda,throughputEnviado, throughputRecibido;
     private final Throughput test;
     
     /**
@@ -38,10 +38,10 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
         
         this.test = new Throughput();
         test.run();
-        this.anchoBanda = test.getAnchoBanda()/1000000;
+        this.anchoBanda = (double)test.getAnchoBanda()/1000000;
         this.jLabelAnchoBanda.setText("Ancho de banda: "+round(this.anchoBanda,2)+" Mbps");
         
-        //System.out.println("ancho de banda="+this.anchoBanda);
+        //System.out.println("ancho de banda="+test.getAnchoBanda());
         this.gaugeRecibido= new Radial();
         this.gaugeRecibido.setTitle("Recibido");
         this.gaugeRecibido.setUnitString("Mbps");
@@ -87,7 +87,7 @@ public class Odometro extends javax.swing.JFrame implements ActionListener {
             //System.out.println("throughputEnviados="+throughputEnviados);                
         }      
         
-        this.anchoBanda = test.getAnchoBanda()/1000000;
+        this.anchoBanda = (double)test.getAnchoBanda()/1000000;
         this.jLabelAnchoBanda.setText("Ancho de banda: "+round(this.anchoBanda,2)+" Mbps");
         this.gaugeRecibido.setMaxValue(this.anchoBanda);
         this.gaugeEnviado.setMaxValue(this.anchoBanda);
