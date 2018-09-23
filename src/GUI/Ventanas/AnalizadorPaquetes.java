@@ -48,9 +48,9 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         packetList = new ArrayList<>();
         INDEX = 1; //interface        
         flag = 0;
-        COUNTER = 0;
+        COUNTER = 1;
         CaptureState = false;
-        No = 0;
+        No = 1;
         NETWORK_INTERFACES = JpcapCaptor.getDeviceList();
         
         this.ventanaInicio = ventanaInicio;        
@@ -106,8 +106,6 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTablePaquetes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jButtonCapturar = new javax.swing.JButton();
         jButtonDetener = new javax.swing.JButton();
@@ -115,24 +113,16 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButtonRegresar = new javax.swing.JButton();
         jButtonSalir = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaDetalles = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTablePaquetes = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jTablePaquetes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "#", "Tiempo", "Fuente", "Destino", "Protocolo", "Longitud"
-            }
-        ));
-        jTablePaquetes.setEnabled(false);
-        jTablePaquetes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTablePaquetesMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTablePaquetes);
 
         jLabel1.setText("Captura de mensajes");
 
@@ -167,16 +157,54 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             }
         });
 
+        jTextAreaDetalles.setColumns(20);
+        jTextAreaDetalles.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextAreaDetalles.setRows(5);
+        jTextAreaDetalles.setEnabled(false);
+        jScrollPane2.setViewportView(jTextAreaDetalles);
+
+        jTablePaquetes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTablePaquetes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "No.", "Length", "Source", "Destination", "Protocol", "Length"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTablePaquetes.setRowHeight(20);
+        jTablePaquetes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTablePaquetesMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jTablePaquetes);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonRegresar)
+                .addGap(328, 328, 328)
+                .addComponent(jButtonSalir)
+                .addGap(282, 282, 282))
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(39, 39, 39)
                         .addComponent(jLabel2)
                         .addGap(32, 32, 32)
                         .addComponent(jComboBoxInterfaces, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -184,14 +212,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                         .addComponent(jButtonCapturar)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonDetener))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1010, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap(47, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonRegresar)
-                .addGap(328, 328, 328)
-                .addComponent(jButtonSalir)
-                .addGap(282, 282, 282))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,9 +225,11 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     .addComponent(jButtonDetener)
                     .addComponent(jComboBoxInterfaces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonRegresar)
                     .addComponent(jButtonSalir))
@@ -215,15 +239,12 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTablePaquetesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePaquetesMouseClicked
-        
-        
-    }//GEN-LAST:event_jTablePaquetesMouseClicked
-
     private void jButtonCapturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCapturarActionPerformed
         DefaultTableModel model = (DefaultTableModel) jTablePaquetes.getModel();
         model.setRowCount(0);
         No = 1;
+        PacketContents.rowList.clear();
+        jTextAreaDetalles.setText("");
         
         jButtonCapturar.setEnabled(false);
         jButtonDetener.setEnabled(true);
@@ -257,6 +278,78 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
+    private void jTablePaquetesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePaquetesMouseClicked
+        jTextAreaDetalles.setText("");        
+        Object obj = jTablePaquetes.getModel().getValueAt(jTablePaquetes.getSelectedRow(), 0);
+        int nPaquete = (int) obj;
+        nPaquete -=1;
+        
+        if (PacketContents.rowList.get(nPaquete)[4] == "TCP") {
+            
+            jTextAreaDetalles.setText("Packet No: " + PacketContents.rowList.get(nPaquete)[0]
+                    + "\nSeq No: " + PacketContents.rowList.get(nPaquete)[10]
+                    + "\nProtocol: " + PacketContents.rowList.get(nPaquete)[4]
+                    + "\nSource IP: " + PacketContents.rowList.get(nPaquete)[2]
+                    + "\nDist IP: " + PacketContents.rowList.get(nPaquete)[3]
+                    + "\nLength: " + PacketContents.rowList.get(nPaquete)[1]
+                    + "\nSource Port: " + PacketContents.rowList.get(nPaquete)[5]
+                    + "\nDist Port: " + PacketContents.rowList.get(nPaquete)[6]
+                    + "\nAck: " + PacketContents.rowList.get(nPaquete)[7]
+                    + "\nAck No: " + PacketContents.rowList.get(nPaquete)[8]
+                    + "\nSequence No: " + PacketContents.rowList.get(nPaquete)[10]
+                    //+ "\nOffset: " + PacketContents.rowList.get((int) obj)[11]
+                    + "\nHeader: " + PacketContents.rowList.get(nPaquete)[12]
+                    + "\nData: " + PacketContents.rowList.get(nPaquete)[9]
+            );
+            /*
+            try {
+                jTextArea2.setText(customizeHexa(toHexadecimal(jTextAreaDetalles.getText())));
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(sniffer.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+
+        } else if (PacketContents.rowList.get(nPaquete)[4] == "UDP") {
+            jTextAreaDetalles.setText("Packet No: " + PacketContents.rowList.get(nPaquete)[0]
+                    + "\nProtocol:" + PacketContents.rowList.get(nPaquete)[4]
+                    + "\nSource IP: " + PacketContents.rowList.get(nPaquete)[2]
+                    + "\nDist IP: " + PacketContents.rowList.get(nPaquete)[3]
+                    + "\nLength: " + PacketContents.rowList.get(nPaquete)[1]
+                    + "\nSource Port: " + PacketContents.rowList.get(nPaquete)[5]
+                    + "\nDist Port: " + PacketContents.rowList.get(nPaquete)[6]
+                    + "\nOffset: " + PacketContents.rowList.get(nPaquete)[8]
+                    + "\nHeader: " + PacketContents.rowList.get(nPaquete)[9]
+                    + "\nData: " + PacketContents.rowList.get(nPaquete)[7]
+            );
+            /*
+            try {
+                jTextArea2.setText(customizeHexa(toHexadecimal(jTextAreaDetalles.getText())));
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(sniffer.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+
+        } else if (PacketContents.rowList.get(nPaquete)[4] == "ICMP") {
+            jTextAreaDetalles.setText("Packet No: " + PacketContents.rowList.get(nPaquete)[0]
+                    + "\nProtocol:" + PacketContents.rowList.get(nPaquete)[4]
+                    + "\nSource IP: " + PacketContents.rowList.get(nPaquete)[2]
+                    + "\nDist IP: " + PacketContents.rowList.get(nPaquete)[3]
+                    + "\nLength: " + PacketContents.rowList.get(nPaquete)[1]
+                    + "\nChecksum: " + PacketContents.rowList.get(nPaquete)[5]
+                    + "\nHeader: " + PacketContents.rowList.get(nPaquete)[6]
+                    + "\nOffset: " + PacketContents.rowList.get(nPaquete)[7]
+                    + "\nOriginate TimeStamp: " + PacketContents.rowList.get(nPaquete)[8] + "bits"
+                    + "\nRecieve TimeStamp: " + PacketContents.rowList.get(nPaquete)[9] + "bits"
+                    + "\nTransmit TimeStamp: " + PacketContents.rowList.get(nPaquete)[10] + "bits"
+                    + "\nData: " + PacketContents.rowList.get(nPaquete)[11]
+            );
+            /*
+            try {
+                jTextArea2.setText(customizeHexa(toHexadecimal(jTextAreaDetalles.getText())));
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(sniffer.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+        }
+    }//GEN-LAST:event_jTablePaquetesMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCapturar;
     private javax.swing.JButton jButtonDetener;
@@ -265,7 +358,9 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBoxInterfaces;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
     public static javax.swing.JTable jTablePaquetes;
+    private javax.swing.JTextArea jTextAreaDetalles;
     // End of variables declaration//GEN-END:variables
 }

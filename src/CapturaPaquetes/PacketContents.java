@@ -18,21 +18,21 @@ public class PacketContents implements PacketReceiver {
     public static ICMPPacket icmp;
 
     public static List<Object[]> rowList = new ArrayList<Object[]>();
-
-    public void recievePacket(Packet packet) {
-    }
-
+    //public static List<Packet> rowList = new ArrayList<>();
+    
     @Override
     public void receivePacket(Packet packet) {
-
+        
+        //rowList.add(packet);
+        
         if (packet instanceof TCPPacket) {
             tcp = (TCPPacket) packet;
 
             Object[] row = {AnalizadorPaquetes.No, tcp.length, tcp.src_ip, tcp.dst_ip, "TCP", packet.len};
 
             rowList.add(new Object[]{AnalizadorPaquetes.No, tcp.length, tcp.src_ip, tcp.dst_ip, "TCP", tcp.src_port, tcp.dst_port,
-                tcp.ack, tcp.ack_num, tcp.data, tcp.sequence, tcp.offset, tcp.header});
-
+                tcp.ack, tcp.ack_num, tcp.data, tcp.sequence, tcp.offset, tcp.header});    
+            
             DefaultTableModel model = (DefaultTableModel) AnalizadorPaquetes.jTablePaquetes.getModel();
             model.addRow(row);
             AnalizadorPaquetes.No++;
