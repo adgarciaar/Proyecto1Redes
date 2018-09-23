@@ -28,12 +28,12 @@ public class PacketContents implements PacketReceiver {
         if (packet instanceof TCPPacket) {
             tcp = (TCPPacket) packet;
 
-            Object[] row = {AnalizadorPaquetes.No, tcp.length, tcp.src_ip, tcp.dst_ip, "TCP"};
+            Object[] row = {AnalizadorPaquetes.No, tcp.length, tcp.src_ip, tcp.dst_ip, "TCP", packet.len};
 
             rowList.add(new Object[]{AnalizadorPaquetes.No, tcp.length, tcp.src_ip, tcp.dst_ip, "TCP", tcp.src_port, tcp.dst_port,
                 tcp.ack, tcp.ack_num, tcp.data, tcp.sequence, tcp.offset, tcp.header});
 
-            DefaultTableModel model = (DefaultTableModel) AnalizadorPaquetes.jTable1.getModel();
+            DefaultTableModel model = (DefaultTableModel) AnalizadorPaquetes.jTablePaquetes.getModel();
             model.addRow(row);
             AnalizadorPaquetes.No++;
 
@@ -41,11 +41,11 @@ public class PacketContents implements PacketReceiver {
 
             udp = (UDPPacket) packet;
 
-            Object[] row = {AnalizadorPaquetes.No, udp.length, udp.src_ip, udp.dst_ip, "UDP"};
+            Object[] row = {AnalizadorPaquetes.No, udp.length, udp.src_ip, udp.dst_ip, "UDP",packet.len};
             rowList.add(new Object[]{AnalizadorPaquetes.No, udp.length, udp.src_ip, udp.dst_ip, "UDP", udp.src_port, udp.dst_port,
                 udp.data, udp.offset, udp.header});
 
-            DefaultTableModel model = (DefaultTableModel) AnalizadorPaquetes.jTable1.getModel();
+            DefaultTableModel model = (DefaultTableModel) AnalizadorPaquetes.jTablePaquetes.getModel();
             model.addRow(row);
             AnalizadorPaquetes.No++;
 
@@ -53,11 +53,11 @@ public class PacketContents implements PacketReceiver {
 
             icmp = (ICMPPacket) packet;
 
-            Object[] row = {AnalizadorPaquetes.No, icmp.length, icmp.src_ip, icmp.dst_ip, "ICMP"};
+            Object[] row = {AnalizadorPaquetes.No, icmp.length, icmp.src_ip, icmp.dst_ip, "ICMP",packet.len};
             rowList.add(new Object[]{AnalizadorPaquetes.No, icmp.length, icmp.src_ip, icmp.dst_ip, "ICMP", icmp.checksum, icmp.header,
                 icmp.offset, icmp.orig_timestamp, icmp.recv_timestamp, icmp.trans_timestamp, icmp.data});
 
-            DefaultTableModel model = (DefaultTableModel) AnalizadorPaquetes.jTable1.getModel();
+            DefaultTableModel model = (DefaultTableModel) AnalizadorPaquetes.jTablePaquetes.getModel();
             model.addRow(row);
             AnalizadorPaquetes.No++;
 

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 import jpcap.JpcapCaptor;
 import jpcap.JpcapWriter;
 import jpcap.NetworkInterface;
@@ -38,6 +39,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
 
     /**
      * Creates new form AnalizadorMensajes
+     * @param ventanaInicio
      */
     public AnalizadorPaquetes(JFrame ventanaInicio) {
         initComponents();
@@ -105,10 +107,10 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTablePaquetes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonCapturar = new javax.swing.JButton();
+        jButtonDetener = new javax.swing.JButton();
         jComboBoxInterfaces = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jButtonRegresar = new javax.swing.JButton();
@@ -116,7 +118,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTablePaquetes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -124,27 +126,28 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                 "#", "Tiempo", "Fuente", "Destino", "Protocolo", "Longitud"
             }
         ));
-        jTable1.setEnabled(false);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTablePaquetes.setEnabled(false);
+        jTablePaquetes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                jTablePaquetesMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTablePaquetes);
 
         jLabel1.setText("Captura de mensajes");
 
-        jButton1.setText("Empezar captura");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCapturar.setText("Empezar captura");
+        jButtonCapturar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonCapturarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Detener captura");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonDetener.setText("Detener captura");
+        jButtonDetener.setEnabled(false);
+        jButtonDetener.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonDetenerActionPerformed(evt);
             }
         });
 
@@ -177,10 +180,10 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(32, 32, 32)
                         .addComponent(jComboBoxInterfaces, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(jButton1)
-                        .addGap(67, 67, 67)
-                        .addComponent(jButton2))
+                        .addGap(86, 86, 86)
+                        .addComponent(jButtonCapturar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonDetener))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1010, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(47, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -196,8 +199,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
+                    .addComponent(jButtonCapturar)
+                    .addComponent(jButtonDetener)
                     .addComponent(jComboBoxInterfaces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(20, 20, 20)
@@ -212,29 +215,38 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+    private void jTablePaquetesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePaquetesMouseClicked
         
         
-    }//GEN-LAST:event_jTable1MouseClicked
+    }//GEN-LAST:event_jTablePaquetesMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonCapturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCapturarActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTablePaquetes.getModel();
+        model.setRowCount(0);
+        No = 1;
+        
+        jButtonCapturar.setEnabled(false);
+        jButtonDetener.setEnabled(true);
+        jComboBoxInterfaces.setEnabled(false);
+        
         String datosInterface = (String)jComboBoxInterfaces.getSelectedItem();         
         int pointIndex = datosInterface.indexOf(".");           
         int idInterface = Integer.parseInt(datosInterface.substring(0, pointIndex));
-        //System.out.println(idInterface);
+        //System.out.println(idInterface);      
         
         INDEX = idInterface;
         
         CaptureState = true;
-        CapturePackets();            
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+        CapturePackets();       
+    }//GEN-LAST:event_jButtonCapturarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButtonDetenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetenerActionPerformed
         CaptureState = false;
-        THREAD.finished();         
-    }//GEN-LAST:event_jButton2ActionPerformed
+        THREAD.finished();      
+        jButtonCapturar.setEnabled(true);
+        jButtonDetener.setEnabled(false);
+        jComboBoxInterfaces.setEnabled(true);
+    }//GEN-LAST:event_jButtonDetenerActionPerformed
 
     private void jButtonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegresarActionPerformed
         this.dispose();
@@ -246,14 +258,14 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonCapturar;
+    private javax.swing.JButton jButtonDetener;
     private javax.swing.JButton jButtonRegresar;
     private javax.swing.JButton jButtonSalir;
     private javax.swing.JComboBox<String> jComboBoxInterfaces;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    public static javax.swing.JTable jTable1;
+    public static javax.swing.JTable jTablePaquetes;
     // End of variables declaration//GEN-END:variables
 }
