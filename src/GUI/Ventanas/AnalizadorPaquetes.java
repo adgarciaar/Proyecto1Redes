@@ -21,6 +21,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     private final JFrame ventanaInicio;
     private static NetworkInterface[] dispositivos;
     private List<Packet> listaPaquetes = new ArrayList<>();
+    private boolean estado;
+    private Capturador capturador;
     
     /**
      * Creates new form AnalizadorMensajes
@@ -29,7 +31,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     public AnalizadorPaquetes(JFrame ventanaInicio) {
         initComponents();
         this.ventanaInicio = ventanaInicio;
-        this.dispositivos = Capturador.obtenerDispositivos();
+        this.capturador = new Capturador();
+        this.dispositivos = this.capturador.obtenerDispositivos();
         int numeroDispositivo = -1;
         for (NetworkInterface dispositivo : dispositivos) {
             numeroDispositivo+=1;
@@ -38,6 +41,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             //System.out.println(dispositivo.description);
             //System.out.println(dispositivo.datalink_name + "->>" + dispositivo.datalink_description);
         }
+        estado = false;
     }   
     
     /**
@@ -162,10 +166,16 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButtonCapturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCapturarActionPerformed
-        String propertyData = (String)jComboBoxInterfaces.getSelectedItem();         
-        int pointIndex = propertyData.indexOf(".");           
-        int idProperty = Integer.parseInt(propertyData.substring(0, pointIndex));
+        String datosInterface = (String)jComboBoxInterfaces.getSelectedItem();         
+        int pointIndex = datosInterface.indexOf(".");           
+        int idInterface = Integer.parseInt(datosInterface.substring(0, pointIndex));
         //System.out.println(idProperty);
+        this.capturador.seleccionarDispositivo(idInterface);
+        /*while (this.estado){     
+            listaPaquetes.add();
+        }
+        CAP.close();*/
+        
     }//GEN-LAST:event_jButtonCapturarActionPerformed
 
     private void jButtonDetenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetenerActionPerformed
