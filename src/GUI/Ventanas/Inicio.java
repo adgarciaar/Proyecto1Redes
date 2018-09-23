@@ -140,7 +140,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void buttonCapturarFramesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapturarFramesActionPerformed
         this.setVisible(false); 
-        new AnalizadorMensajes(this).setVisible(true); 
+        new AnalizadorPaquetes(this).setVisible(true); 
     }//GEN-LAST:event_buttonCapturarFramesActionPerformed
 
     /**

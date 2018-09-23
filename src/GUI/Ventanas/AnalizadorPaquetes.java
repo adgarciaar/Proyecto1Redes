@@ -5,24 +5,28 @@
  */
 package GUI.Ventanas;
 
-import CapturaMensajes.Capturador;
+import CapturaPaquetes.Capturador;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import jpcap.NetworkInterface;
+import jpcap.packet.Packet;
 
 /**
  *
  * @author adrian
  */
-public class AnalizadorMensajes extends javax.swing.JFrame {
+public class AnalizadorPaquetes extends javax.swing.JFrame {
 
     private final JFrame ventanaInicio;
     private static NetworkInterface[] dispositivos;
+    private List<Packet> listaPaquetes = new ArrayList<>();
     
     /**
      * Creates new form AnalizadorMensajes
      * @param ventanaInicio
      */
-    public AnalizadorMensajes(JFrame ventanaInicio) {
+    public AnalizadorPaquetes(JFrame ventanaInicio) {
         initComponents();
         this.ventanaInicio = ventanaInicio;
         this.dispositivos = Capturador.obtenerDispositivos();
