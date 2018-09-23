@@ -15,15 +15,17 @@ import javax.swing.table.DefaultTableModel;
 import jpcap.JpcapCaptor;
 import jpcap.JpcapWriter;
 import jpcap.NetworkInterface;
+import jpcap.packet.ICMPPacket;
 import jpcap.packet.Packet;
-
+import jpcap.packet.TCPPacket;
+import jpcap.packet.UDPPacket;
 
 /**
  *
  * @author adrian
  */
 public class AnalizadorPaquetes extends javax.swing.JFrame {
-    
+
     public static NetworkInterface[] NETWORK_INTERFACES;
     public static JpcapCaptor CAP;
     jpcap_thread THREAD;
@@ -33,17 +35,19 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     boolean CaptureState;
     public static int No;
     private final JFrame ventanaInicio;
-    
+    public static double startTime;
+
     JpcapWriter writer = null;
     List<Packet> packetList;
 
     /**
      * Creates new form AnalizadorMensajes
+     *
      * @param ventanaInicio
      */
     public AnalizadorPaquetes(JFrame ventanaInicio) {
         initComponents();
-        
+
         writer = null;
         packetList = new ArrayList<>();
         INDEX = 1; //interface        
@@ -52,30 +56,27 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         CaptureState = false;
         No = 1;
         NETWORK_INTERFACES = JpcapCaptor.getDeviceList();
-        
-        this.ventanaInicio = ventanaInicio;        
-        NETWORK_INTERFACES =JpcapCaptor.getDeviceList(); 
+
+        this.ventanaInicio = ventanaInicio;
+        NETWORK_INTERFACES = JpcapCaptor.getDeviceList();
         int numeroDispositivo = -1;
         for (NetworkInterface dispositivo : NETWORK_INTERFACES) {
-            numeroDispositivo+=1;
-            this.jComboBoxInterfaces.addItem(numeroDispositivo+". "+dispositivo.description
-                    +"-"+dispositivo.datalink_name+ "-" + dispositivo.datalink_description);            
-        }       
+            numeroDispositivo += 1;
+            this.jComboBoxInterfaces.addItem(numeroDispositivo + ". " + dispositivo.description
+                    + "-" + dispositivo.datalink_name + "-" + dispositivo.datalink_description);
+        }
     }
-    
+
     public void CapturePackets() {
 
         THREAD = new jpcap_thread() {
-            
+
             @Override
             public Object construct() {
-
                 try {
-
                     CAP = JpcapCaptor.openDevice(NETWORK_INTERFACES[INDEX], 65535, false, 1000);
-                    
+                    startTime = (double)System.currentTimeMillis()/1000;                    
                     while (CaptureState) {
-                        
                         CAP.processPacket(1, new PacketContents());
                         packetList.add(CAP.getPacket());
                     }
@@ -169,7 +170,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
 
             },
             new String [] {
-                "No.", "Length", "Source", "Destination", "Protocol", "Length"
+                "Número", "Tiempo (s)", "Fuente", "Destino", "Protocolo", "Longitud (bytes)"
             }
         ) {
             Class[] types = new Class [] {
@@ -245,25 +246,26 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         No = 1;
         PacketContents.rowList.clear();
         jTextAreaDetalles.setText("");
-        
+        packetList.clear();
+
         jButtonCapturar.setEnabled(false);
         jButtonDetener.setEnabled(true);
         jComboBoxInterfaces.setEnabled(false);
-        
-        String datosInterface = (String)jComboBoxInterfaces.getSelectedItem();         
-        int pointIndex = datosInterface.indexOf(".");           
+
+        String datosInterface = (String) jComboBoxInterfaces.getSelectedItem();
+        int pointIndex = datosInterface.indexOf(".");
         int idInterface = Integer.parseInt(datosInterface.substring(0, pointIndex));
         //System.out.println(idInterface);      
-        
+
         INDEX = idInterface;
-        
+
         CaptureState = true;
-        CapturePackets();       
+        CapturePackets();
     }//GEN-LAST:event_jButtonCapturarActionPerformed
 
     private void jButtonDetenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetenerActionPerformed
         CaptureState = false;
-        THREAD.finished();      
+        THREAD.finished();
         jButtonCapturar.setEnabled(true);
         jButtonDetener.setEnabled(false);
         jComboBoxInterfaces.setEnabled(true);
@@ -279,13 +281,13 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     private void jTablePaquetesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePaquetesMouseClicked
-        jTextAreaDetalles.setText("");        
+        jTextAreaDetalles.setText("");
         Object obj = jTablePaquetes.getModel().getValueAt(jTablePaquetes.getSelectedRow(), 0);
         int nPaquete = (int) obj;
-        nPaquete -=1;
-        
+        nPaquete -= 1;
+
         if (PacketContents.rowList.get(nPaquete)[4] == "TCP") {
-            
+
             jTextAreaDetalles.setText("Packet No: " + PacketContents.rowList.get(nPaquete)[0]
                     + "\nSeq No: " + PacketContents.rowList.get(nPaquete)[10]
                     + "\nProtocol: " + PacketContents.rowList.get(nPaquete)[4]
