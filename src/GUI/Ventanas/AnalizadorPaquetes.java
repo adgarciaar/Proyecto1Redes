@@ -5,34 +5,51 @@
  */
 package GUI.Ventanas;
 
-import CapturaPaquetes.Capturador;
+import CapturaPaquetes.Receptor;
+import CapturaPaquetes.hiloJpcap;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
+import jpcap.JpcapCaptor;
+import jpcap.JpcapWriter;
 import jpcap.NetworkInterface;
 import jpcap.packet.Packet;
+
 
 /**
  *
  * @author adrian
  */
 public class AnalizadorPaquetes extends javax.swing.JFrame {
-
-    private final JFrame ventanaInicio;
-    private static NetworkInterface[] dispositivos;
-    private List<Packet> listaPaquetes = new ArrayList<>();
-    private boolean estado;
-    private Capturador capturador;
     
+    public static NetworkInterface[] dispositivos;
+    public static JpcapCaptor capturador;
+    private hiloJpcap hilo;
+    private static int INDEX;
+    private static int flag;
+    private static int contador;
+    private boolean capturando;
+    private static int No;
+    private final JFrame ventanaInicio;    
+    private List<Packet> listaPaquetes;
+
     /**
      * Creates new form AnalizadorMensajes
      * @param ventanaInicio
      */
     public AnalizadorPaquetes(JFrame ventanaInicio) {
-        initComponents();
+        initComponents();      
         this.ventanaInicio = ventanaInicio;
-        this.capturador = new Capturador();
-        this.dispositivos = this.capturador.obtenerDispositivos();
+        listaPaquetes = new ArrayList<>();        
+        flag = 0;
+        contador = 0;
+        this.capturando = false;
+        No = 0;
+        dispositivos = JpcapCaptor.getDeviceList();        
+        
+        capturador = null;
+        this.dispositivos =JpcapCaptor.getDeviceList(); 
         int numeroDispositivo = -1;
         for (NetworkInterface dispositivo : dispositivos) {
             numeroDispositivo+=1;
@@ -40,10 +57,55 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"-"+dispositivo.datalink_name+ "-" + dispositivo.datalink_description);
             //System.out.println(dispositivo.description);
             //System.out.println(dispositivo.datalink_name + "->>" + dispositivo.datalink_description);
-        }
-        estado = false;
-    }   
+        }            
+    }
     
+    public void CapturePackets() {
+
+        hilo = new hiloJpcap() {
+            
+            @Override
+            public Object construct() {
+
+                try {
+
+                    capturador = JpcapCaptor.openDevice(dispositivos[INDEX], 65535, false, 1000);
+                   
+                    //writer = JpcapWriter.openDumpFile(CAP, "captureddata");
+                    /*if ("UDP".equals(filter_options.getSelectedItem().toString())) {
+                        CAP.setFilter("udp", true);
+                    } else if ("TCP".equals(filter_options.getSelectedItem().toString())) {
+                        CAP.setFilter("tcp", true);
+                    } else if ("ICMP".equals(filter_options.getSelectedItem().toString())) {
+                        CAP.setFilter("icmp", true);
+                    }
+                    */
+                    
+                    //CAP.setFilter("udp", true);
+                    //CAP.setFilter("tcp", true);
+                    //CAP.setFilter("icmp", true);
+                    
+                    while (capturando) {                        
+                        capturador.processPacket(1, new Receptor());
+                        listaPaquetes.add(capturador.getPacket());
+                    }
+                    capturador.close();
+
+                } catch (IOException e) {
+                    System.out.print(e);
+                }
+                return 0;
+            }
+
+            @Override
+            public void finished() {
+                this.interrupt();
+            }
+        };
+
+        hilo.start();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,12 +118,12 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButtonCapturar = new javax.swing.JButton();
-        jButtonDetener = new javax.swing.JButton();
-        jButtonRegresar = new javax.swing.JButton();
-        jButtonSalir = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jComboBoxInterfaces = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        jButtonRegresar = new javax.swing.JButton();
+        jButtonSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,19 +145,21 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
 
         jLabel1.setText("Captura de mensajes");
 
-        jButtonCapturar.setText("Empezar captura");
-        jButtonCapturar.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Empezar captura");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCapturarActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
-        jButtonDetener.setText("Detener captura");
-        jButtonDetener.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("Detener captura");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDetenerActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
+
+        jLabel2.setText("Interfaces:");
 
         jButtonRegresar.setText("Regresar");
         jButtonRegresar.addActionListener(new java.awt.event.ActionListener() {
@@ -111,8 +175,6 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Interfaces:");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -126,16 +188,16 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(32, 32, 32)
                         .addComponent(jComboBoxInterfaces, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(64, 64, 64)
-                        .addComponent(jButtonCapturar)
-                        .addGap(39, 39, 39)
-                        .addComponent(jButtonDetener))
+                        .addGap(37, 37, 37)
+                        .addComponent(jButton1)
+                        .addGap(67, 67, 67)
+                        .addComponent(jButton2))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1010, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(47, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(299, 299, 299)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonRegresar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(328, 328, 328)
                 .addComponent(jButtonSalir)
                 .addGap(282, 282, 282))
         );
@@ -145,13 +207,13 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButtonCapturar)
-                    .addComponent(jButtonDetener)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
                     .addComponent(jComboBoxInterfaces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonRegresar)
                     .addComponent(jButtonSalir))
@@ -162,38 +224,38 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-                       
+                
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jButtonCapturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCapturarActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        /*capturando = true;
+        CapturePackets();      
+        */
         String datosInterface = (String)jComboBoxInterfaces.getSelectedItem();         
         int pointIndex = datosInterface.indexOf(".");           
         int idInterface = Integer.parseInt(datosInterface.substring(0, pointIndex));
-        //System.out.println(idProperty);
-        this.capturador.seleccionarDispositivo(idInterface);
-        /*while (this.estado){     
-            listaPaquetes.add();
-        }
-        CAP.close();*/
+        System.out.println(idInterface);
         
-    }//GEN-LAST:event_jButtonCapturarActionPerformed
+        //listButton.setEnabled(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButtonDetenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetenerActionPerformed
-             
-    }//GEN-LAST:event_jButtonDetenerActionPerformed
-
-    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_jButtonSalirActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        capturando = false;
+        hilo.finished();         
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButtonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegresarActionPerformed
         this.dispose();
         this.ventanaInicio.setVisible(true);
     }//GEN-LAST:event_jButtonRegresarActionPerformed
 
+    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButtonSalirActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonCapturar;
-    private javax.swing.JButton jButtonDetener;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonRegresar;
     private javax.swing.JButton jButtonSalir;
     private javax.swing.JComboBox<String> jComboBoxInterfaces;
