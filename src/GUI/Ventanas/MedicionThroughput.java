@@ -136,6 +136,7 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         jLabelAnchoBanda = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setMinimumSize(new java.awt.Dimension(300, 300));
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 500));

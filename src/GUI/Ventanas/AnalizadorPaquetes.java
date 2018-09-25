@@ -123,7 +123,6 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         };
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1104, 838));
         setResizable(false);
 
         jLabel1.setText("Captura de mensajes");
