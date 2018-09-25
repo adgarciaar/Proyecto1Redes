@@ -26,6 +26,7 @@ public class PacketContents implements PacketReceiver {
         //rowList.add(packet);
         DefaultTableModel model = (DefaultTableModel) AnalizadorPaquetes.jTablePaquetes.getModel();
         double estimatedTime = (double)(System.currentTimeMillis()/1000) - AnalizadorPaquetes.startTime;
+        AnalizadorPaquetes.packetList.add(packet);
         
         if (packet instanceof TCPPacket) {
             tcp = (TCPPacket) packet;
