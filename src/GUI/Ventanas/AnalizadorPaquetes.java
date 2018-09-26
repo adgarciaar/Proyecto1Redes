@@ -406,7 +406,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(sniffer.class.getName()).log(Level.SEVERE, null, ex);
             }*/
-        } else if (PacketContents.rowList.get(nPaquete)[4] == "ARP") {
+        } else if (PacketContents.rowList.get(nPaquete)[6] == "ARP") {            
             jTextAreaDetalles.setText("Packet No: " + PacketContents.rowList.get(nPaquete)[0]
                     + "\n\tProtocol:" + PacketContents.rowList.get(nPaquete)[6]
                     + "\n\tSource hardware: " + PacketContents.rowList.get(nPaquete)[2]
