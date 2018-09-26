@@ -293,8 +293,41 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         //System.out.println("Text Decryted : " + s);
         
         String macFuente = ethernetPacket.getSourceAddress();        
-        String macDestino = ethernetPacket.getDestinationAddress();        
-
+        String macDestino = ethernetPacket.getDestinationAddress();   
+        
+        String infoCompletaEthernet = ethernetPacket.toString();
+        int indicePrimerParentesis = infoCompletaEthernet.indexOf('('); 
+        int indiceUltimoParentesis = infoCompletaEthernet.indexOf(')'); 
+        int ethernetType= Integer.parseInt(infoCompletaEthernet.substring(indicePrimerParentesis+1, indiceUltimoParentesis));
+        String tipoEthernet = "";
+        
+        //String hex = Integer.toHexString(ethernetType);        
+        //System.out.println(hex);
+        
+        switch (ethernetType) {
+            case 2048:  
+                tipoEthernet = "IP (0x0800)";
+                break;
+            case 512:
+                tipoEthernet = "PUP (0x0200)";
+                break;
+            case 2054:
+                tipoEthernet = "ARP (0x0806)";
+                break;
+            case 32821:
+                tipoEthernet = "RARP (ARP reverso) (0x8035)";
+                break;
+            case 33024:
+                tipoEthernet = "IEEE 802.1Q VLAN (0x8100)";
+                break;
+            case 34525:
+                tipoEthernet = "IPv6 (0x86dd)";
+                break;
+            case 36864:
+                tipoEthernet = "Loop (0x9000)";
+                break;                
+        }
+        
         if (PacketContents.rowList.get(nPaquete)[4] == "TCP") {
 
             jTextAreaDetalles.setText("Packet No: " + PacketContents.rowList.get(nPaquete)[0]
@@ -313,6 +346,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tData: " + PacketContents.rowList.get(nPaquete)[9]
                     //información Ethernet
                     +"\nEthernet"
+                    +"\n\tProtocolo: "+tipoEthernet
                     +"\n\tFuente: " + macFuente
                     +"\n\tDestino: " + macDestino
             );
@@ -336,6 +370,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tData: " + PacketContents.rowList.get(nPaquete)[7]
                     //información Ethernet
                     +"\nEthernet"
+                    +"\n\tProtocolo: "+tipoEthernet
                     +"\n\tFuente: " + macFuente
                     +"\n\tDestino: " + macDestino
             );
@@ -361,6 +396,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tData: " + PacketContents.rowList.get(nPaquete)[11]
                     //información Ethernet
                     +"\nEthernet"
+                    +"\n\tProtocolo: "+tipoEthernet
                     +"\n\tFuente: " + macFuente
                     +"\n\tDestino: " + macDestino
             );
@@ -370,6 +406,27 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(sniffer.class.getName()).log(Level.SEVERE, null, ex);
             }*/
+        } else if (PacketContents.rowList.get(nPaquete)[4] == "ARP") {
+            jTextAreaDetalles.setText("Packet No: " + PacketContents.rowList.get(nPaquete)[0]
+                    + "\n\tProtocol:" + PacketContents.rowList.get(nPaquete)[6]
+                    + "\n\tSource hardware: " + PacketContents.rowList.get(nPaquete)[2]
+                    + "\n\tProtocolo fuente: " + PacketContents.rowList.get(nPaquete)[3]
+                    + "\n\tDist hardware: " + PacketContents.rowList.get(nPaquete)[4]
+                    + "\n\tProtocolo destino: " + PacketContents.rowList.get(nPaquete)[5]
+                    + "\n\tLength: " + PacketContents.rowList.get(nPaquete)[1]
+                    //+ "\n\tChecksum: " + PacketContents.rowList.get(nPaquete)[5]
+                    + "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[7]
+                    //+ "\n\tOffset: " + PacketContents.rowList.get(nPaquete)[7]
+                    //+ "\n\tOriginate TimeStamp: " + PacketContents.rowList.get(nPaquete)[8] + "bits"
+                    //+ "\n\tRecieve TimeStamp: " + PacketContents.rowList.get(nPaquete)[9] + "bits"
+                    //+ "\n\tTransmit TimeStamp: " + PacketContents.rowList.get(nPaquete)[10] + "bits"
+                    + "\n\tData: " + PacketContents.rowList.get(nPaquete)[8]
+                    //información Ethernet
+                    +"\nEthernet"
+                    +"\n\tProtocolo: "+tipoEthernet
+                    +"\n\tFuente: " + macFuente
+                    +"\n\tDestino: " + macDestino
+            );
         }
     }//GEN-LAST:event_jTablePaquetesMouseClicked
 

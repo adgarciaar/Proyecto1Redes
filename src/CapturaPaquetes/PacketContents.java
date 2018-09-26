@@ -9,6 +9,7 @@ import jpcap.packet.TCPPacket;
 import jpcap.packet.UDPPacket;
 import java.util.ArrayList;
 import java.util.List;
+import jpcap.packet.ARPPacket;
 import jpcap.packet.ICMPPacket;
 
 public class PacketContents implements PacketReceiver {
@@ -16,6 +17,7 @@ public class PacketContents implements PacketReceiver {
     public static TCPPacket tcp;
     public static UDPPacket udp;
     public static ICMPPacket icmp;
+    public static ARPPacket arp;
 
     public static List<Object[]> rowList = new ArrayList<Object[]>();
     //public static List<Packet> rowList = new ArrayList<>();
@@ -64,6 +66,17 @@ public class PacketContents implements PacketReceiver {
             model.addRow(row);
             AnalizadorPaquetes.No++;
 
+        } else if (packet instanceof ARPPacket) {
+            arp = (ARPPacket) packet;
+
+            Object[] row = {AnalizadorPaquetes.No, estimatedTime, 
+                arp.getSenderHardwareAddress(), arp.getTargetHardwareAddress(), "ARP", packet.len};
+            rowList.add(new Object[]{AnalizadorPaquetes.No, arp.len, arp.sender_hardaddr, 
+                arp.sender_protoaddr,arp.target_hardaddr, arp.target_protoaddr,"ARP", arp.header,arp.data});
+
+            //DefaultTableModel model = (DefaultTableModel) AnalizadorPaquetes.jTablePaquetes.getModel();
+            model.addRow(row);
+            AnalizadorPaquetes.No++;
         }
     }
 }
