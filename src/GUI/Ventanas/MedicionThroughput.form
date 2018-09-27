@@ -56,7 +56,7 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="jLabelEnviado" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="170" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="153" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -166,7 +166,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="24" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Enviado: 0.00 Kbps"/>
+        <Property name="text" type="java.lang.String" value="Enviado: 0.00 bytes"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelRecibido">
@@ -174,7 +174,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="24" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Recibido: 0.00 Kbps"/>
+        <Property name="text" type="java.lang.String" value="Recibido: 0.00 bytes"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelAnchoBanda">

@@ -92,13 +92,21 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         this.gaugeEnviado.setValueAnimated(throughputEnviado);
         
         if(this.throughputRecibido < 1){
-            this.jLabelRecibido.setText("Recibido: "+round(throughputRecibido*1000, 2)+" Kbps");
+            if(this.throughputRecibido < 0.001){
+                this.jLabelRecibido.setText("Recibido: "+round(throughputRecibido*1000000, 2)+" bytes");
+            }else{
+                this.jLabelRecibido.setText("Recibido: "+round(throughputRecibido*1000, 2)+" Kbps");
+            }
         }else{
             this.jLabelRecibido.setText("Recibido: "+round(throughputRecibido, 2)+" Mbps");
         }
         
         if(this.throughputEnviado < 1){
-            this.jLabelEnviado.setText("Enviado: "+round(throughputEnviado*1000, 2)+" Kbps");
+            if(this.throughputEnviado < 0.001){
+                this.jLabelEnviado.setText("Recibido: "+round(throughputEnviado*1000000, 2)+" bytes");
+            }else{
+                this.jLabelEnviado.setText("Enviado: "+round(throughputEnviado*1000, 2)+" Kbps");
+            }
         }else{
             this.jLabelEnviado.setText("Enviado: "+round(throughputEnviado, 2)+" Mbps");
         }    
@@ -182,10 +190,10 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         );
 
         jLabelEnviado.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabelEnviado.setText("Enviado: 0.00 Kbps");
+        jLabelEnviado.setText("Enviado: 0.00 bytes");
 
         jLabelRecibido.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabelRecibido.setText("Recibido: 0.00 Kbps");
+        jLabelRecibido.setText("Recibido: 0.00 bytes");
 
         jLabelAnchoBanda.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabelAnchoBanda.setText("Ancho de banda: 0.0 Mbps");
@@ -219,7 +227,7 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
                         .addGap(83, 83, 83))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabelEnviado)
-                        .addGap(170, 170, 170))))
+                        .addGap(153, 153, 153))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
