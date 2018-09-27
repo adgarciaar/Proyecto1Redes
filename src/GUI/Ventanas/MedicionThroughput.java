@@ -23,12 +23,12 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
     private final Radial gaugeEnviado;
     
     private int contador;
-    private long recibidoAntes, enviadoAntes, diferenciaRecibido, diferenciaEnviado; 
+    private long recibidoAntes, enviadoAntes, diferenciaRecibido, diferenciaEnviado;
     private double anchoBanda,throughputEnviado, throughputRecibido;
     private final Throughput test;
     
     /**
-     * Creates new form Odometro
+     * Creates new form MedicionThroughput
      * @param ventanaInicio
      */
     public MedicionThroughput(JFrame ventanaInicio) {
@@ -69,22 +69,19 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         if (this.contador == 1){
             this.test.run();
             this.recibidoAntes = test.getBytesRecibidos();
-            this.enviadoAntes = test.getBytesEnviados();                
+            this.enviadoAntes = test.getBytesEnviados();           
         }
         if(this.contador > 1){ 
             this.contador = 2;
             this.recibidoAntes = test.getBytesRecibidos();
-            this.enviadoAntes = test.getBytesEnviados();  
+            this.enviadoAntes = test.getBytesEnviados();           
             this.test.run();
                 
-            this.diferenciaRecibido = test.getBytesRecibidos()- recibidoAntes;
-            this.diferenciaEnviado = test.getBytesEnviados()- enviadoAntes;
+            this.diferenciaRecibido = test.getBytesRecibidos()- this.recibidoAntes;
+            this.diferenciaEnviado = test.getBytesEnviados()- this.enviadoAntes;
                 
             this.throughputRecibido = (double)(diferenciaRecibido*8)/1000000;
-            this.throughputEnviado = (double)(diferenciaEnviado*8)/1000000;
-                
-            //System.out.println("throughputRecibidos="+throughputRecibidos);
-            //System.out.println("throughputEnviados="+throughputEnviados);                
+            this.throughputEnviado = (double)(diferenciaEnviado*8)/1000000;           
         }      
         
         this.anchoBanda = (double)test.getAnchoBanda()/1000000;
@@ -104,7 +101,8 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
             this.jLabelEnviado.setText("Enviado: "+round(throughputEnviado*1000, 2)+" Kbps");
         }else{
             this.jLabelEnviado.setText("Enviado: "+round(throughputEnviado, 2)+" Mbps");
-        }       
+        }    
+        
     }
     
     //redondea un double a dos cifras decimales
@@ -215,13 +213,13 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabelEnviado)
-                        .addGap(170, 170, 170))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabelAnchoBanda)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(83, 83, 83))))
+                        .addGap(83, 83, 83))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabelEnviado)
+                        .addGap(170, 170, 170))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,11 +236,11 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelEnviado)
                     .addComponent(jLabelRecibido))
-                .addGap(39, 39, 39)
+                .addGap(57, 57, 57)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonRegresar)
                     .addComponent(buttonSalir))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         pack();

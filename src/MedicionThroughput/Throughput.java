@@ -20,36 +20,36 @@ import com.jacob.com.Variant;
  */
 public class Throughput extends TimerTask {
     
-    private int bytesRecibidos;
-    private int bytesEnviados;
-    private int anchoBanda;
+    private long bytesRecibidos;
+    private long bytesEnviados;
+    private double anchoBanda;
 
     public Throughput() {
     }  
 
-    public int getBytesRecibidos() {
+    public long getBytesRecibidos() {
         return bytesRecibidos;
     }
 
-    public void setBytesRecibidos(int bytesRecibidos) {
+    public void setBytesRecibidos(long bytesRecibidos) {
         this.bytesRecibidos = bytesRecibidos;
     }
 
-    public int getBytesEnviados() {
+    public long getBytesEnviados() {
         return bytesEnviados;
     }
 
-    public void setBytesEnviados(int bytesEnviados) {
+    public void setBytesEnviados(long bytesEnviados) {
         this.bytesEnviados = bytesEnviados;
     }
 
-    public int getAnchoBanda() {
+    public double getAnchoBanda() {
         return anchoBanda;
     }
 
-    public void setAnchoBanda(int anchoBanda) {
+    public void setAnchoBanda(long anchoBanda) {
         this.anchoBanda = anchoBanda;
-    }   
+    }
     
     @Override
     public void run() {
@@ -74,7 +74,7 @@ public class Throughput extends TimerTask {
                         
             this.bytesRecibidos = Integer.parseInt(BytesReceivedPerSec);
             this.bytesEnviados = Integer.parseInt(BytesSentPerSec);
-            this.anchoBanda = Integer.parseInt(CurrentBandwidth);                        
+            this.anchoBanda = Double.parseDouble(CurrentBandwidth);           
 	}       
     }
     
