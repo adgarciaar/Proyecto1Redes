@@ -68,7 +68,7 @@ public class Throughput extends TimerTask {
         this.nInterface = nInterface;
     }
 
-    //@Override
+    @Override
     public void run() {
         String host = "localhost"; //Technically you should be able to connect to other hosts, but it takes setup
         String connectStr = String.format("winmgmts:\\\\%s\\root\\CIMV2", host);

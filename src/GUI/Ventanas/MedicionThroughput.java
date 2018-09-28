@@ -314,6 +314,15 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         int pointIndex = datosInterface.indexOf(".");
         this.nInterface = Integer.parseInt(datosInterface.substring(0, pointIndex));
         test.setnInterface(nInterface);
+        
+        //dejar estos atributos en 0 para no obtener valores negativos
+        this.contador = 0;
+        this.enviadoAntes = 0;
+        this.recibidoAntes = 0;
+        this.throughputRecibido = 0;
+        this.throughputEnviado = 0;
+        this.gaugeRecibido.setMaxValue(100);
+        this.gaugeEnviado.setMaxValue(100);
 
         //mirar si lo optimizamos
         this.contador++;
