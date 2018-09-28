@@ -84,21 +84,21 @@ public class Throughput extends TimerTask {
         //System.out.println(this.nInterface);
         //int contador = 0;
         //while (enumVariant.hasMoreElements()) { 
+        
+        String BytesReceivedPerSec = null, BytesSentPerSec = null, CurrentBandwidth = null;
+        
         for (int i = 0; i < this.nInterface; i++) {
             //contador +=1;
-
             //if(contador == this.nInterface){
             item = enumVariant.nextElement().toDispatch();
             //Dispatch.call returns a Variant which we can convert to a java form.
-            String BytesReceivedPerSec = Dispatch.call(item, "BytesReceivedPerSec").toString();
-            String BytesSentPerSec = Dispatch.call(item, "BytesSentPerSec").toString();
-            String CurrentBandwidth = Dispatch.call(item, "CurrentBandwidth").toString();
-
-            this.bytesRecibidos = Integer.parseInt(BytesReceivedPerSec);
-            this.bytesEnviados = Integer.parseInt(BytesSentPerSec);
-            this.anchoBanda = Double.parseDouble(CurrentBandwidth);
-
+            BytesReceivedPerSec = Dispatch.call(item, "BytesReceivedPerSec").toString();
+            BytesSentPerSec = Dispatch.call(item, "BytesSentPerSec").toString();
+            CurrentBandwidth = Dispatch.call(item, "CurrentBandwidth").toString();           
         }
+        this.bytesRecibidos = Integer.parseInt(BytesReceivedPerSec);
+        this.bytesEnviados = Integer.parseInt(BytesSentPerSec);
+        this.anchoBanda = Double.parseDouble(CurrentBandwidth);
 
     }
 
