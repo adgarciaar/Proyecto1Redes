@@ -22,7 +22,6 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
     private final JFrame ventanaInicio;
     private final Radial gaugeRecibido;
     private final Radial gaugeEnviado;
-    private String[] listaInterfaces;
 
     private int contador, nInterface;
     private long recibidoAntes, enviadoAntes, diferenciaRecibido, diferenciaEnviado;
