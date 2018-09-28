@@ -101,7 +101,12 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
                 this.throughputEnviado = (double) (diferenciaEnviado * 8) / 1000000;
             }
 
-            this.anchoBanda = (double) test.getAnchoBanda() / 1000000;
+            if ((double) test.getAnchoBanda() / 1000000 == 0) {
+                this.anchoBanda = 100;
+            } else {
+                this.anchoBanda = (double) test.getAnchoBanda() / 1000000;
+            }
+            
             this.jLabelAnchoBanda.setText("Ancho de banda: " + round(this.anchoBanda, 2) + " Mbps");
             this.gaugeRecibido.setMaxValue(this.anchoBanda);
             this.gaugeEnviado.setMaxValue(this.anchoBanda);
@@ -315,7 +320,7 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         int pointIndex = datosInterface.indexOf(".");
         this.nInterface = Integer.parseInt(datosInterface.substring(0, pointIndex));
         test.setnInterface(nInterface);
-        
+
         //dejar estos atributos en 0 para no obtener valores negativos
         this.contador = 0;
         this.enviadoAntes = 0;
@@ -345,7 +350,12 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
             this.throughputEnviado = (double) (diferenciaEnviado * 8) / 1000000;
         }
 
-        this.anchoBanda = (double) test.getAnchoBanda() / 1000000;
+        if ((double) test.getAnchoBanda() / 1000000 == 0) {
+            this.anchoBanda = 100;
+        } else {
+            this.anchoBanda = (double) test.getAnchoBanda() / 1000000;
+        }
+
         this.jLabelAnchoBanda.setText("Ancho de banda: " + round(this.anchoBanda, 2) + " Mbps");
         this.gaugeRecibido.setMaxValue(this.anchoBanda);
         this.gaugeEnviado.setMaxValue(this.anchoBanda);
