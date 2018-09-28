@@ -81,6 +81,8 @@ public class PacketContents implements PacketReceiver {
             //DefaultTableModel model = (DefaultTableModel) AnalizadorPaquetes.jTablePaquetes.getModel();
             model.addRow(row);
             AnalizadorPaquetes.No++;
+        }else{
+            System.out.println("se nos fue uno"+packet.toString());            
         }
     }
 }
