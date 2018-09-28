@@ -8,8 +8,12 @@ package GUI.Ventanas;
 import CapturaPaquetes.PacketContents;
 import CapturaPaquetes.jpcap_thread;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.bind.DatatypeConverter;
 import jpcap.JpcapCaptor;
 import jpcap.JpcapWriter;
 import jpcap.NetworkInterface;
@@ -327,6 +331,9 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         }
         
         if (PacketContents.rowList.get(nPaquete)[4] == "TCP") {
+            
+            byte[] byteDataTCP = (byte[]) PacketContents.rowList.get(nPaquete)[9]; 
+            String stringDataTCP = new String(byteDataTCP);
 
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
                     + "\n\tSeq No: " + PacketContents.rowList.get(nPaquete)[10]
@@ -341,8 +348,9 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tAck No: " + PacketContents.rowList.get(nPaquete)[8]
                     + "\n\tSequence No: " + PacketContents.rowList.get(nPaquete)[10]
                     //+ "\nOffset: " + PacketContents.rowList.get((int) obj)[11]
-                    + "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[12]
-                    + "\n\tData: " + PacketContents.rowList.get(nPaquete)[9]
+                    //+ "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[12]
+                    + "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[12]                    
+                    + "\n\tData: " + stringDataTCP
                     //información Ethernet
                     +"\nEthernet"
                     +"\n\tProtocolo: "+tipoEthernet
@@ -357,6 +365,10 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             }*/
 
         } else if (PacketContents.rowList.get(nPaquete)[4] == "UDP") {
+            
+            byte[] byteDataUDP = (byte[]) PacketContents.rowList.get(nPaquete)[7]; 
+            String stringDataUDP = new String(byteDataUDP);
+            
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
                     + "\n\tProtocol:" + PacketContents.rowList.get(nPaquete)[4]
                     + " (" +PacketContents.rowList.get(nPaquete)[10]+")"
@@ -367,7 +379,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tDist Port: " + PacketContents.rowList.get(nPaquete)[6]
                     + "\n\tOffset: " + PacketContents.rowList.get(nPaquete)[8]
                     + "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[9]
-                    + "\n\tData: " + PacketContents.rowList.get(nPaquete)[7]
+                    + "\n\tData: " + stringDataUDP
                     //información Ethernet
                     +"\nEthernet"
                     +"\n\tProtocolo: "+tipoEthernet
@@ -382,19 +394,27 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             }*/
 
         } else if (PacketContents.rowList.get(nPaquete)[4] == "ICMP") {
+            
+            byte[] byteDataICMP = (byte[]) PacketContents.rowList.get(nPaquete)[11]; 
+            short shortChecksum = (short) PacketContents.rowList.get(nPaquete)[5];
+            
+            String intHexString = Integer.toHexString(shortChecksum);
+            String shortHexString = "0x"+intHexString.substring(4);
+            String stringDataICMP = new String(byteDataICMP);
+            
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
                     + "\n\tProtocol:" + PacketContents.rowList.get(nPaquete)[4]
                     + " (" +PacketContents.rowList.get(nPaquete)[12]+")" 
                     + "\n\tSource IP: " + PacketContents.rowList.get(nPaquete)[2]
                     + "\n\tDist IP: " + PacketContents.rowList.get(nPaquete)[3]
                     + "\n\tLength: " + PacketContents.rowList.get(nPaquete)[1]
-                    + "\n\tChecksum: " + PacketContents.rowList.get(nPaquete)[5]
+                    + "\n\tChecksum: " + shortHexString
                     + "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[6]
                     + "\n\tOffset: " + PacketContents.rowList.get(nPaquete)[7]
                     + "\n\tOriginate TimeStamp: " + PacketContents.rowList.get(nPaquete)[8] + "bits"
                     + "\n\tRecieve TimeStamp: " + PacketContents.rowList.get(nPaquete)[9] + "bits"
                     + "\n\tTransmit TimeStamp: " + PacketContents.rowList.get(nPaquete)[10] + "bits"
-                    + "\n\tData: " + PacketContents.rowList.get(nPaquete)[11]
+                    + "\n\tData: " + stringDataICMP
                     //información Ethernet
                     +"\nEthernet"
                     +"\n\tProtocolo: "+tipoEthernet
@@ -407,7 +427,11 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(sniffer.class.getName()).log(Level.SEVERE, null, ex);
             }*/
-        } else if (PacketContents.rowList.get(nPaquete)[6] == "ARP") {            
+        } else if (PacketContents.rowList.get(nPaquete)[6] == "ARP") {     
+            
+            byte[] byteDataARP = (byte[]) PacketContents.rowList.get(nPaquete)[8]; 
+            String stringDataARP = new String(byteDataARP);
+            
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
                     + "\n\tProtocol:" + PacketContents.rowList.get(nPaquete)[6]                    
                     + "\n\tSource hardware: " + PacketContents.rowList.get(nPaquete)[2]
@@ -421,7 +445,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     //+ "\n\tOriginate TimeStamp: " + PacketContents.rowList.get(nPaquete)[8] + "bits"
                     //+ "\n\tRecieve TimeStamp: " + PacketContents.rowList.get(nPaquete)[9] + "bits"
                     //+ "\n\tTransmit TimeStamp: " + PacketContents.rowList.get(nPaquete)[10] + "bits"
-                    + "\n\tData: " + PacketContents.rowList.get(nPaquete)[8]
+                    + "\n\tData: " + stringDataARP
                     //información Ethernet
                     +"\nEthernet"
                     +"\n\tProtocolo: "+tipoEthernet
