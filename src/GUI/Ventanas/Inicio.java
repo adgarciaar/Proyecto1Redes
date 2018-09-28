@@ -5,21 +5,42 @@
  */
 package GUI.Ventanas;
 
+import java.awt.Component;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import javax.swing.Timer;
+
 /**
  *
  * @author adrian
  */
 public class Inicio extends javax.swing.JFrame {
-    
+
     public javax.swing.Timer timer;
+    public boolean flag;
 
     /**
      * Creates new form Inicio
      */
     public Inicio() {
         initComponents();
+        flag = false;
+        ComponentListener listener;
+        listener = new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent evt) {
+                Component c = (Component) evt.getSource();
+                //System.out.println("Component is now visible");
+                if(flag == true){
+                    timer.stop();
+                    flag = false;
+                }
+            }
+        };
+        this.addComponentListener(listener);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -127,24 +148,26 @@ public class Inicio extends javax.swing.JFrame {
     private void buttonMedirThroughputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMedirThroughputActionPerformed
         /*this.setVisible(false);                   
         new Odometro(this).setVisible(true);*/
-        
-        this.setVisible(false);   
-        
+
+        this.setVisible(false);
+
         MedicionThroughput frame = new MedicionThroughput(this);
-        frame.setDefaultCloseOperation( EXIT_ON_CLOSE );
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
+        flag = true;
         
         int time = 1000;
-        //javax.swing.Timer timer = new javax.swing.Timer(time, frame);        
+        //javax.swing.Timer timer = new javax.swing.Timer(time, frame);
         this.timer = new javax.swing.Timer(time, frame);
         this.timer.setInitialDelay(1);
-        this.timer.start();              
+        this.timer.start();        
     }//GEN-LAST:event_buttonMedirThroughputActionPerformed
 
     private void buttonCapturarFramesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapturarFramesActionPerformed
-        this.setVisible(false); 
-        new AnalizadorPaquetes(this).setVisible(true); 
+        this.setVisible(false);
+        new AnalizadorPaquetes(this).setVisible(true);
     }//GEN-LAST:event_buttonCapturarFramesActionPerformed
 
     /**
@@ -175,7 +198,7 @@ public class Inicio extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
+        java.awt.EventQueue.invokeLater(() -> {            
             new Inicio().setVisible(true);
         });
     }

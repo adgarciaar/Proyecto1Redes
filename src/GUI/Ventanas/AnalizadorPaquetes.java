@@ -92,7 +92,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         THREAD.start();
 
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -348,8 +348,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tAck No: " + PacketContents.rowList.get(nPaquete)[8]
                     + "\n\tSequence No: " + PacketContents.rowList.get(nPaquete)[10]
                     //+ "\nOffset: " + PacketContents.rowList.get((int) obj)[11]
-                    //+ "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[12]
-                    + "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[12]                    
+                    + "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[12]                                   
                     + "\n\tData: " + stringDataTCP
                     //información Ethernet
                     +"\nEthernet"
