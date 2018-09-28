@@ -7,6 +7,7 @@ import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Dispatch;
 import com.jacob.com.EnumVariant;
 import com.jacob.com.Variant;
+import java.util.ArrayList;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,6 +24,8 @@ public class Throughput extends TimerTask {
     private long bytesRecibidos;
     private long bytesEnviados;
     private double anchoBanda;
+    private ArrayList<String> listaInterfaces;
+    private int nInterface;
 
     public Throughput() {
     }  
@@ -50,8 +53,24 @@ public class Throughput extends TimerTask {
     public void setAnchoBanda(long anchoBanda) {
         this.anchoBanda = anchoBanda;
     }
-    
-    @Override
+
+    public ArrayList<String> getListaInterfaces() {
+        return listaInterfaces;
+    }
+
+    public void setListaInterfaces(ArrayList<String> listaInterfaces) {
+        this.listaInterfaces = listaInterfaces;
+    }
+
+    public int getnInterface() {
+        return nInterface;
+    }
+
+    public void setnInterface(int nInterface) {
+        this.nInterface = nInterface;
+    }
+
+    //@Override
     public void run() {
         String host = "localhost"; //Technically you should be able to connect to other hosts, but it takes setup
         String connectStr = String.format("winmgmts:\\\\%s\\root\\CIMV2", host);
@@ -64,18 +83,47 @@ public class Throughput extends TimerTask {
 	EnumVariant enumVariant = new EnumVariant(vCollection.toDispatch());
 	Dispatch item = null;
         
+        int contador = 0;
+	while (enumVariant.hasMoreElements()) { 
+            contador +=1;
+            
+            if(contador == nInterface){
+            
+                item = enumVariant.nextElement().toDispatch();
+                //Dispatch.call returns a Variant which we can convert to a java form.
+                String BytesReceivedPerSec = Dispatch.call(item,"BytesReceivedPerSec").toString();
+                String BytesSentPerSec = Dispatch.call(item,"BytesSentPerSec").toString();
+                String CurrentBandwidth = Dispatch.call(item,"CurrentBandwidth").toString();
+
+                this.bytesRecibidos = Integer.parseInt(BytesReceivedPerSec);
+                this.bytesEnviados = Integer.parseInt(BytesSentPerSec);
+                this.anchoBanda = Double.parseDouble(CurrentBandwidth);    
+            }
+	}       
+    }
+    
+    public void listarInterfaces(){
+        
+        String host = "localhost"; //Technically you should be able to connect to other hosts, but it takes setup
+        String connectStr = String.format("winmgmts:\\\\%s\\root\\CIMV2", host);
+	String query = "SELECT * FROM Win32_PerfRawData_Tcpip_NetworkInterface"; //Started = 1 means the service is running.
+	ActiveXComponent axWMI = new ActiveXComponent(connectStr); 
+	//Execute the query
+	Variant vCollection = axWMI.invoke("ExecQuery", new Variant(query));
+		
+	//Our result is a collection, so we need to work though the.
+	EnumVariant enumVariant = new EnumVariant(vCollection.toDispatch());
+	Dispatch item = null;
+        
+        this.listaInterfaces = new ArrayList<>();
+        
 	while (enumVariant.hasMoreElements()) { 
             
             item = enumVariant.nextElement().toDispatch();
-            //Dispatch.call returns a Variant which we can convert to a java form.
-            String BytesReceivedPerSec = Dispatch.call(item,"BytesReceivedPerSec").toString();
-            String BytesSentPerSec = Dispatch.call(item,"BytesSentPerSec").toString();
-            String CurrentBandwidth = Dispatch.call(item,"CurrentBandwidth").toString();
-                        
-            this.bytesRecibidos = Integer.parseInt(BytesReceivedPerSec);
-            this.bytesEnviados = Integer.parseInt(BytesSentPerSec);
-            this.anchoBanda = Double.parseDouble(CurrentBandwidth);           
-	}       
+            String nombreInterface = Dispatch.call(item,"Name").toString();
+            this.listaInterfaces.add(nombreInterface);
+        }
+        
     }
     
 }
