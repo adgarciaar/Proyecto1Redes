@@ -23,15 +23,12 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     public static NetworkInterface[] NETWORK_INTERFACES;
     public static JpcapCaptor CAP;
     jpcap_thread THREAD;
-    public static int INDEX;
-    public static int flag;
-    public static int COUNTER;
+    public static int INDEX;    
     boolean CaptureState;
     public static int No;
     private final JFrame ventanaInicio;
     public static double startTime;
-
-    JpcapWriter writer = null;
+    
     //public static List<Packet> packetList;
 
     /**
@@ -42,11 +39,9 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     public AnalizadorPaquetes(JFrame ventanaInicio) {
         initComponents();
 
-        writer = null;
+        //writer = null;
         //packetList = new ArrayList<>();
-        INDEX = 1; //interface        
-        flag = 0;
-        COUNTER = 1;
+        INDEX = 1; //interface               
         CaptureState = false;
         No = 1;
         NETWORK_INTERFACES = JpcapCaptor.getDeviceList();

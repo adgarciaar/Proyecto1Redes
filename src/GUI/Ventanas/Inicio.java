@@ -136,10 +136,10 @@ public class Inicio extends javax.swing.JFrame {
         frame.setVisible(true);
         
         int time = 1000;
-        //javax.swing.Timer timer = new javax.swing.Timer(time, frame);
-        timer = new javax.swing.Timer(time, frame);
-        timer.setInitialDelay(1);
-        timer.start();              
+        //javax.swing.Timer timer = new javax.swing.Timer(time, frame);        
+        this.timer = new javax.swing.Timer(time, frame);
+        this.timer.setInitialDelay(1);
+        this.timer.start();              
     }//GEN-LAST:event_buttonMedirThroughputActionPerformed
 
     private void buttonCapturarFramesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapturarFramesActionPerformed
