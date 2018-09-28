@@ -301,6 +301,7 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalirActionPerformed
+        //this.ventanaInicio.
         System.exit(0);
     }//GEN-LAST:event_buttonSalirActionPerformed
 

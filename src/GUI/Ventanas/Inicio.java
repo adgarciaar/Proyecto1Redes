@@ -10,6 +10,8 @@ package GUI.Ventanas;
  * @author adrian
  */
 public class Inicio extends javax.swing.JFrame {
+    
+    public javax.swing.Timer timer;
 
     /**
      * Creates new form Inicio
@@ -134,7 +136,8 @@ public class Inicio extends javax.swing.JFrame {
         frame.setVisible(true);
         
         int time = 1000;
-        javax.swing.Timer timer = new javax.swing.Timer(time, frame);
+        //javax.swing.Timer timer = new javax.swing.Timer(time, frame);
+        timer = new javax.swing.Timer(time, frame);
         timer.setInitialDelay(1);
         timer.start();              
     }//GEN-LAST:event_buttonMedirThroughputActionPerformed

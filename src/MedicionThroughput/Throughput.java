@@ -96,8 +96,8 @@ public class Throughput extends TimerTask {
             BytesSentPerSec = Dispatch.call(item, "BytesSentPerSec").toString();
             CurrentBandwidth = Dispatch.call(item, "CurrentBandwidth").toString();           
         }
-        this.bytesRecibidos = Integer.parseInt(BytesReceivedPerSec);
-        this.bytesEnviados = Integer.parseInt(BytesSentPerSec);
+        this.bytesRecibidos = Long.parseLong(BytesReceivedPerSec);
+        this.bytesEnviados = Long.parseLong(BytesSentPerSec);
         this.anchoBanda = Double.parseDouble(CurrentBandwidth);
         System.out.println(Dispatch.call(item, "Name").toString());
     }
