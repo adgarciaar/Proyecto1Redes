@@ -1,6 +1,5 @@
 package MedicionThroughput;
 
-
 import java.util.TimerTask;
 
 import com.jacob.activeX.ActiveXComponent;
@@ -14,13 +13,12 @@ import java.util.ArrayList;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author adrian
  */
 public class Throughput extends TimerTask {
-    
+
     private long bytesRecibidos;
     private long bytesEnviados;
     private double anchoBanda;
@@ -28,7 +26,7 @@ public class Throughput extends TimerTask {
     private int nInterface;
 
     public Throughput() {
-    }  
+    }
 
     public long getBytesRecibidos() {
         return bytesRecibidos;
@@ -63,7 +61,7 @@ public class Throughput extends TimerTask {
     }
 
     public int getnInterface() {
-        return nInterface;
+        return this.nInterface;
     }
 
     public void setnInterface(int nInterface) {
@@ -74,56 +72,58 @@ public class Throughput extends TimerTask {
     public void run() {
         String host = "localhost"; //Technically you should be able to connect to other hosts, but it takes setup
         String connectStr = String.format("winmgmts:\\\\%s\\root\\CIMV2", host);
-	String query = "SELECT * FROM Win32_PerfRawData_Tcpip_NetworkInterface"; //Started = 1 means the service is running.
-	ActiveXComponent axWMI = new ActiveXComponent(connectStr); 
-	//Execute the query
-	Variant vCollection = axWMI.invoke("ExecQuery", new Variant(query));
-		
-	//Our result is a collection, so we need to work though the.
-	EnumVariant enumVariant = new EnumVariant(vCollection.toDispatch());
-	Dispatch item = null;
-        
-        int contador = 0;
-	while (enumVariant.hasMoreElements()) { 
-            contador +=1;
-            
-            if(contador == nInterface){
-            
-                item = enumVariant.nextElement().toDispatch();
-                //Dispatch.call returns a Variant which we can convert to a java form.
-                String BytesReceivedPerSec = Dispatch.call(item,"BytesReceivedPerSec").toString();
-                String BytesSentPerSec = Dispatch.call(item,"BytesSentPerSec").toString();
-                String CurrentBandwidth = Dispatch.call(item,"CurrentBandwidth").toString();
+        String query = "SELECT * FROM Win32_PerfRawData_Tcpip_NetworkInterface"; //Started = 1 means the service is running.
+        ActiveXComponent axWMI = new ActiveXComponent(connectStr);
+        //Execute the query
+        Variant vCollection = axWMI.invoke("ExecQuery", new Variant(query));
 
-                this.bytesRecibidos = Integer.parseInt(BytesReceivedPerSec);
-                this.bytesEnviados = Integer.parseInt(BytesSentPerSec);
-                this.anchoBanda = Double.parseDouble(CurrentBandwidth);    
-            }
-	}       
+        //Our result is a collection, so we need to work though the.
+        EnumVariant enumVariant = new EnumVariant(vCollection.toDispatch());
+        Dispatch item = null;
+
+        //System.out.println(this.nInterface);
+        //int contador = 0;
+        //while (enumVariant.hasMoreElements()) { 
+        for (int i = 0; i < this.nInterface; i++) {
+            //contador +=1;
+
+            //if(contador == this.nInterface){
+            item = enumVariant.nextElement().toDispatch();
+            //Dispatch.call returns a Variant which we can convert to a java form.
+            String BytesReceivedPerSec = Dispatch.call(item, "BytesReceivedPerSec").toString();
+            String BytesSentPerSec = Dispatch.call(item, "BytesSentPerSec").toString();
+            String CurrentBandwidth = Dispatch.call(item, "CurrentBandwidth").toString();
+
+            this.bytesRecibidos = Integer.parseInt(BytesReceivedPerSec);
+            this.bytesEnviados = Integer.parseInt(BytesSentPerSec);
+            this.anchoBanda = Double.parseDouble(CurrentBandwidth);
+
+        }
+
     }
-    
-    public void listarInterfaces(){
-        
+
+    public void listarInterfaces() {
+
         String host = "localhost"; //Technically you should be able to connect to other hosts, but it takes setup
         String connectStr = String.format("winmgmts:\\\\%s\\root\\CIMV2", host);
-	String query = "SELECT * FROM Win32_PerfRawData_Tcpip_NetworkInterface"; //Started = 1 means the service is running.
-	ActiveXComponent axWMI = new ActiveXComponent(connectStr); 
-	//Execute the query
-	Variant vCollection = axWMI.invoke("ExecQuery", new Variant(query));
-		
-	//Our result is a collection, so we need to work though the.
-	EnumVariant enumVariant = new EnumVariant(vCollection.toDispatch());
-	Dispatch item = null;
-        
+        String query = "SELECT * FROM Win32_PerfRawData_Tcpip_NetworkInterface"; //Started = 1 means the service is running.
+        ActiveXComponent axWMI = new ActiveXComponent(connectStr);
+        //Execute the query
+        Variant vCollection = axWMI.invoke("ExecQuery", new Variant(query));
+
+        //Our result is a collection, so we need to work though the.
+        EnumVariant enumVariant = new EnumVariant(vCollection.toDispatch());
+        Dispatch item = null;
+
         this.listaInterfaces = new ArrayList<>();
-        
-	while (enumVariant.hasMoreElements()) { 
-            
+
+        while (enumVariant.hasMoreElements()) {
+
             item = enumVariant.nextElement().toDispatch();
-            String nombreInterface = Dispatch.call(item,"Name").toString();
+            String nombreInterface = Dispatch.call(item, "Name").toString();
             this.listaInterfaces.add(nombreInterface);
         }
-        
+
     }
-    
+
 }
