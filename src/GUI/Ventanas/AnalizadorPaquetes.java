@@ -15,7 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.bind.DatatypeConverter;
 import jpcap.JpcapCaptor;
-import jpcap.JpcapWriter;
 import jpcap.NetworkInterface;
 
 /**
@@ -333,8 +332,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         if (PacketContents.rowList.get(nPaquete)[4] == "TCP") {
             
             byte[] byteDataTCP = (byte[]) PacketContents.rowList.get(nPaquete)[9]; 
-            String stringDataTCP = new String(byteDataTCP);
-
+            String stringDataTCP = new String(byteDataTCP);   
+            
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
                     + "\n\tSeq No: " + PacketContents.rowList.get(nPaquete)[10]
                     + "\n\tProtocol: " + PacketContents.rowList.get(nPaquete)[4]
@@ -356,12 +355,6 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"\n\tFuente: " + macFuente
                     +"\n\tDestino: " + macDestino
             );
-            /*
-            try {
-                jTextArea2.setText(customizeHexa(toHexadecimal(jTextAreaDetalles.getText())));
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(sniffer.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
 
         } else if (PacketContents.rowList.get(nPaquete)[4] == "UDP") {
             
@@ -385,12 +378,6 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"\n\tFuente: " + macFuente
                     +"\n\tDestino: " + macDestino
             );
-            /*
-            try {
-                jTextArea2.setText(customizeHexa(toHexadecimal(jTextAreaDetalles.getText())));
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(sniffer.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
 
         } else if (PacketContents.rowList.get(nPaquete)[4] == "ICMP") {
             
@@ -420,12 +407,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"\n\tFuente: " + macFuente
                     +"\n\tDestino: " + macDestino
             );
-            /*
-            try {
-                jTextArea2.setText(customizeHexa(toHexadecimal(jTextAreaDetalles.getText())));
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(sniffer.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+           
         } else if (PacketContents.rowList.get(nPaquete)[6] == "ARP") {     
             
             byte[] byteDataARP = (byte[]) PacketContents.rowList.get(nPaquete)[8]; 
