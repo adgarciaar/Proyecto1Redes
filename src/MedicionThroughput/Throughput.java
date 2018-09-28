@@ -99,7 +99,7 @@ public class Throughput extends TimerTask {
         this.bytesRecibidos = Integer.parseInt(BytesReceivedPerSec);
         this.bytesEnviados = Integer.parseInt(BytesSentPerSec);
         this.anchoBanda = Double.parseDouble(CurrentBandwidth);
-
+        System.out.println(Dispatch.call(item, "Name").toString());
     }
 
     public void listarInterfaces() {
