@@ -131,6 +131,10 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
             } else {
                 this.jLabelEnviado.setText("Enviado: " + round(throughputEnviado, 2) + " Mbps");
             }
+            this.jLabelCapacRecibido.setText("Capacidad usada: "
+                    +round((double)this.throughputRecibido*100/this.anchoBanda,2)+" %");
+            this.jLabelCapacEnviado.setText("Capacidad usada: "
+                    +round((double)this.throughputEnviado*100/this.anchoBanda,2)+" %");
         }
     }
     
@@ -171,6 +175,8 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         jLabel2 = new javax.swing.JLabel();
         jLabelAnchoBanda = new javax.swing.JLabel();
         buttonMedir = new javax.swing.JButton();
+        jLabelCapacRecibido = new javax.swing.JLabel();
+        jLabelCapacEnviado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -238,12 +244,18 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
             }
         });
 
+        jLabelCapacRecibido.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabelCapacRecibido.setText("Capacidad usada: 0.00%");
+
+        jLabelCapacEnviado.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabelCapacEnviado.setText("Capacidad usada: 0.00%");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(221, 221, 221)
+                .addGap(224, 224, 224)
                 .addComponent(buttonRegresar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buttonSalir)
@@ -279,6 +291,12 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
                         .addGap(29, 29, 29)
                         .addComponent(buttonMedir)
                         .addGap(27, 27, 27))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(147, 147, 147)
+                .addComponent(jLabelCapacRecibido)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelCapacEnviado)
+                .addGap(122, 122, 122))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -291,19 +309,23 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
                     .addComponent(buttonMedir))
                 .addGap(31, 31, 31)
                 .addComponent(jLabelAnchoBanda)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
-                .addGap(44, 44, 44)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelEnviado)
                     .addComponent(jLabelRecibido))
-                .addGap(45, 45, 45)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonRegresar)
-                    .addComponent(buttonSalir))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(jLabelCapacRecibido)
+                    .addComponent(jLabelCapacEnviado))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonSalir)
+                    .addComponent(buttonRegresar))
+                .addGap(39, 39, 39))
         );
 
         pack();
@@ -332,6 +354,10 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         this.throughputEnviado = 0;
         this.odometroRecibido.setMaxValue(100);
         this.odometroEnviado.setMaxValue(100);
+        this.jLabelRecibido.setText("Recibido: 0.00 bytes");
+        this.jLabelEnviado.setText("Enviado: 0.00 bytes");
+        this.jLabelCapacRecibido.setText("Capacidad usada: 0.00%");
+        this.jLabelCapacEnviado.setText("Capacidad usada: 0.00%");
         //se empieza a medir tráfico
         medirTrafico();
     }//GEN-LAST:event_buttonMedirActionPerformed
@@ -344,6 +370,8 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelAnchoBanda;
+    private javax.swing.JLabel jLabelCapacEnviado;
+    private javax.swing.JLabel jLabelCapacRecibido;
     private javax.swing.JLabel jLabelEnviado;
     private javax.swing.JLabel jLabelRecibido;
     private javax.swing.JPanel jPanel1;
