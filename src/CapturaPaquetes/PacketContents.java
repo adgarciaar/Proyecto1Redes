@@ -67,11 +67,20 @@ public class PacketContents implements PacketReceiver {
 
         } else if (packet instanceof ARPPacket) {
             arp = (ARPPacket) packet;
+            
+            String tipoARP = arp.toString();            
+            int firstIndex = tipoARP.indexOf("REQUEST");
+            String tipo="";
+            if(firstIndex==-1){
+                tipo="Reply";
+            }else{
+                tipo="Request";
+            }
 
             Object[] row = {AnalizadorPaquetes.numeroPaquete, estimatedTime, arp.getSenderHardwareAddress(), 
                 arp.getTargetHardwareAddress(), "ARP", packet.len};
             listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, arp.len, arp.sender_hardaddr, 
-                arp.sender_protoaddr,arp.target_hardaddr, arp.target_protoaddr,"ARP", arp.header,arp.data,arp.toString()});           
+                arp.sender_protoaddr,arp.target_hardaddr, arp.target_protoaddr,"ARP", arp.header,arp.data,tipo});           
 
             model.addRow(row);
             AnalizadorPaquetes.numeroPaquete++;

@@ -399,20 +399,11 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[6] == "ARP") {     
             
             byte[] byteDataARP = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[8]; 
-            String stringDataARP = new String(byteDataARP);
-            
-            String tipoARP = (String) PacketContents.listaAtributosPaquetes.get(nPaquete)[9];            
-            int firstIndex = tipoARP.indexOf("REQUEST");
-            String tipo="";
-            if(firstIndex==-1){
-                tipo="REPLY";
-            }else{
-                tipo="REQUEST";
-            }
+            String stringDataARP = new String(byteDataARP);            
             
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
                     + "\n\tProtocol:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]  
-                    + "\n\tTipo: " + tipo
+                    + "\n\tTipo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9]
                     + "\n\tSource hardware: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
                     + "\n\tProtocolo fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
                     + "\n\tDist hardware: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
