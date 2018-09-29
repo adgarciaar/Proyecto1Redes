@@ -70,26 +70,19 @@ public class Throughput extends TimerTask {
 
     @Override
     public void run() {
-        String host = "localhost"; //Technically you should be able to connect to other hosts, but it takes setup
+        String host = "localhost"; 
         String connectStr = String.format("winmgmts:\\\\%s\\root\\CIMV2", host);
-        String query = "SELECT * FROM Win32_PerfRawData_Tcpip_NetworkInterface"; //Started = 1 means the service is running.
+        String query = "SELECT * FROM Win32_PerfRawData_Tcpip_NetworkInterface"; 
         ActiveXComponent axWMI = new ActiveXComponent(connectStr);
         //Execute the query
         Variant vCollection = axWMI.invoke("ExecQuery", new Variant(query));
 
-        //Our result is a collection, so we need to work though the.
         EnumVariant enumVariant = new EnumVariant(vCollection.toDispatch());
         Dispatch item = null;
-
-        //System.out.println(this.nInterface);
-        //int contador = 0;
-        //while (enumVariant.hasMoreElements()) { 
         
         String BytesReceivedPerSec = null, BytesSentPerSec = null, CurrentBandwidth = null;
         
-        for (int i = 0; i < this.nInterface; i++) {
-            //contador +=1;
-            //if(contador == this.nInterface){
+        for (int i = 0; i < this.nInterface; i++) {            
             item = enumVariant.nextElement().toDispatch();
             //Dispatch.call returns a Variant which we can convert to a java form.
             BytesReceivedPerSec = Dispatch.call(item, "BytesReceivedPerSec").toString();
@@ -98,20 +91,18 @@ public class Throughput extends TimerTask {
         }
         this.bytesRecibidos = Long.parseLong(BytesReceivedPerSec);
         this.bytesEnviados = Long.parseLong(BytesSentPerSec);
-        this.anchoBanda = Double.parseDouble(CurrentBandwidth);
-        System.out.println(Dispatch.call(item, "Name").toString());
+        this.anchoBanda = Double.parseDouble(CurrentBandwidth);        
     }
 
     public void listarInterfaces() {
 
-        String host = "localhost"; //Technically you should be able to connect to other hosts, but it takes setup
+        String host = "localhost"; 
         String connectStr = String.format("winmgmts:\\\\%s\\root\\CIMV2", host);
-        String query = "SELECT * FROM Win32_PerfRawData_Tcpip_NetworkInterface"; //Started = 1 means the service is running.
+        String query = "SELECT * FROM Win32_PerfRawData_Tcpip_NetworkInterface"; 
         ActiveXComponent axWMI = new ActiveXComponent(connectStr);
         //Execute the query
         Variant vCollection = axWMI.invoke("ExecQuery", new Variant(query));
-
-        //Our result is a collection, so we need to work though the.
+        
         EnumVariant enumVariant = new EnumVariant(vCollection.toDispatch());
         Dispatch item = null;
 

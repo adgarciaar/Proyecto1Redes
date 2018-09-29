@@ -75,6 +75,8 @@ public class PacketContents implements PacketReceiver {
 
             model.addRow(row);
             AnalizadorPaquetes.numeroPaquete++;
+        }else{
+            System.out.println("se nos fue uno"+packet.toString());            
         }
     }
 }

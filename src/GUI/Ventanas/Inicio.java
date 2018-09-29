@@ -16,8 +16,8 @@ import java.awt.event.ComponentListener;
  */
 public class Inicio extends javax.swing.JFrame {
 
-    public javax.swing.Timer temporizador;
-    public boolean bandera;
+    private javax.swing.Timer temporizador;
+    private boolean bandera;
 
     /**
      * Creates new form Inicio
