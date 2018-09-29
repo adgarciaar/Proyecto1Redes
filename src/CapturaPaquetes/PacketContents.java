@@ -71,12 +71,10 @@ public class PacketContents implements PacketReceiver {
             Object[] row = {AnalizadorPaquetes.numeroPaquete, estimatedTime, arp.getSenderHardwareAddress(), 
                 arp.getTargetHardwareAddress(), "ARP", packet.len};
             listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, arp.len, arp.sender_hardaddr, 
-                arp.sender_protoaddr,arp.target_hardaddr, arp.target_protoaddr,"ARP", arp.header,arp.data});           
+                arp.sender_protoaddr,arp.target_hardaddr, arp.target_protoaddr,"ARP", arp.header,arp.data,arp.toString()});           
 
             model.addRow(row);
             AnalizadorPaquetes.numeroPaquete++;
-        }else{
-            System.out.println("se nos fue uno"+packet.toString());            
         }
     }
 }

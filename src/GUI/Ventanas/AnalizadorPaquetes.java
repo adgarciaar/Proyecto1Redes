@@ -281,12 +281,6 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         Object obj = jTablePaquetes.getModel().getValueAt(jTablePaquetes.getSelectedRow(), 0);
         int nPaquete = (int) obj;
         nPaquete -= 1;
-               
-        //EthernetPacket ethernetPacket = (EthernetPacket) packetList.get(nPaquete).datalink;
-        //EthernetPacket ethernetPacket = PacketContents.listaEthernet.get(nPaquete);
-        
-        //String s = new String(ethernetPacket.getSourceAddress());
-        //System.out.println("Text Decryted : " + s);
         
         //extracción de los datos del paquete Ethernet
         String macFuente = PacketContents.listaEthernet.get(nPaquete).getSourceAddress();        
@@ -409,8 +403,18 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             byte[] byteDataARP = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[8]; 
             String stringDataARP = new String(byteDataARP);
             
+            String tipoARP = (String) PacketContents.listaAtributosPaquetes.get(nPaquete)[9];            
+            int firstIndex = tipoARP.indexOf("REQUEST");
+            String tipo="";
+            if(firstIndex==-1){
+                tipo="REPLY";
+            }else{
+                tipo="REQUEST";
+            }
+            
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
-                    + "\n\tProtocol:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]                    
+                    + "\n\tProtocol:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]  
+                    + "\n\tTipo: " + tipo
                     + "\n\tSource hardware: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
                     + "\n\tProtocolo fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
                     + "\n\tDist hardware: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
