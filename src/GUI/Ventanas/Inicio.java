@@ -9,7 +9,6 @@ import java.awt.Component;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import javax.swing.Timer;
 
 /**
  *
@@ -17,24 +16,24 @@ import javax.swing.Timer;
  */
 public class Inicio extends javax.swing.JFrame {
 
-    public javax.swing.Timer timer;
-    public boolean flag;
+    public javax.swing.Timer temporizador;
+    public boolean bandera;
 
     /**
      * Creates new form Inicio
      */
     public Inicio() {
         initComponents();
-        flag = false;
+        bandera = false;
         ComponentListener listener;
         listener = new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent evt) {
                 Component c = (Component) evt.getSource();
                 //System.out.println("Component is now visible");
-                if(flag == true){
-                    timer.stop();
-                    flag = false;
+                if(bandera == true){
+                    temporizador.stop();
+                    bandera = false;
                 }
             }
         };
@@ -146,9 +145,6 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonSalirActionPerformed
 
     private void buttonMedirThroughputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMedirThroughputActionPerformed
-        /*this.setVisible(false);                   
-        new Odometro(this).setVisible(true);*/
-
         this.setVisible(false);
 
         MedicionThroughput frame = new MedicionThroughput(this);
@@ -156,13 +152,12 @@ public class Inicio extends javax.swing.JFrame {
         frame.pack();
         frame.setVisible(true);
 
-        flag = true;
+        bandera = true;
         
-        int time = 1000;
-        //javax.swing.Timer timer = new javax.swing.Timer(time, frame);
-        this.timer = new javax.swing.Timer(time, frame);
-        this.timer.setInitialDelay(1);
-        this.timer.start();        
+        int time = 1000;        
+        this.temporizador = new javax.swing.Timer(time, frame);
+        this.temporizador.setInitialDelay(1);
+        this.temporizador.start();        
     }//GEN-LAST:event_buttonMedirThroughputActionPerformed
 
     private void buttonCapturarFramesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapturarFramesActionPerformed

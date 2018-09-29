@@ -20,13 +20,13 @@ import java.util.ArrayList;
 public class MedicionThroughput extends javax.swing.JFrame implements ActionListener {
 
     private final JFrame ventanaInicio;
-    private final Radial gaugeRecibido;
-    private final Radial gaugeEnviado;
+    private final Radial odometroRecibido;
+    private final Radial odometroEnviado;
 
     private int contador, nInterface;
     private long recibidoAntes, enviadoAntes, diferenciaRecibido, diferenciaEnviado;
     private double anchoBanda, throughputEnviado, throughputRecibido;
-    private final Throughput test;
+    private final Throughput medidorTrafico;
 
     /**
      * Creates new form MedicionThroughput
@@ -38,10 +38,10 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         initComponents();
         this.ventanaInicio = ventanaInicio;
 
-        this.test = new Throughput();
+        this.medidorTrafico = new Throughput();
 
-        test.listarInterfaces();
-        ArrayList<String> listaInterfaces = test.getListaInterfaces();
+        medidorTrafico.listarInterfaces();
+        ArrayList<String> listaInterfaces = medidorTrafico.getListaInterfaces();
 
         int numeroDispositivo = 0;
         for (String dispositivo : listaInterfaces) {
@@ -55,21 +55,21 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         //this.anchoBanda = (double)test.getAnchoBanda()/1000000;
         //this.jLabelAnchoBanda.setText("Ancho de banda: "+round(this.anchoBanda,2)+" Mbps");
         //System.out.println("ancho de banda="+test.getAnchoBanda());
-        this.gaugeRecibido = new Radial();
-        this.gaugeRecibido.setTitle("Recibido");
-        this.gaugeRecibido.setUnitString("Mbps");
+        this.odometroRecibido = new Radial();
+        this.odometroRecibido.setTitle("Recibido");
+        this.odometroRecibido.setUnitString("Mbps");
         //this.gaugeRecibido.setMaxValue(this.anchoBanda);
-        this.gaugeRecibido.setMaxValue(100);
+        this.odometroRecibido.setMaxValue(100);
         this.jPanel1.setLayout(new BorderLayout());
-        this.jPanel1.add(this.gaugeRecibido, BorderLayout.CENTER);
+        this.jPanel1.add(this.odometroRecibido, BorderLayout.CENTER);
 
-        this.gaugeEnviado = new Radial();
-        this.gaugeEnviado.setTitle("Enviado");
-        this.gaugeEnviado.setUnitString("Mbps");
+        this.odometroEnviado = new Radial();
+        this.odometroEnviado.setTitle("Enviado");
+        this.odometroEnviado.setUnitString("Mbps");
         //this.gaugeEnviado.setMaxValue(this.anchoBanda);
-        this.gaugeEnviado.setMaxValue(100);
+        this.odometroEnviado.setMaxValue(100);
         this.jPanel2.setLayout(new BorderLayout());
-        this.jPanel2.add(this.gaugeEnviado, BorderLayout.CENTER);
+        this.jPanel2.add(this.odometroEnviado, BorderLayout.CENTER);
 
         this.pack();
 
@@ -83,34 +83,34 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         if (nInterface != 0) { //si ya seleccionó interface
             this.contador++;
             if (this.contador == 1) {
-                this.test.run();
-                this.recibidoAntes = test.getBytesRecibidos();
-                this.enviadoAntes = test.getBytesEnviados();
+                this.medidorTrafico.run();
+                this.recibidoAntes = medidorTrafico.getBytesRecibidos();
+                this.enviadoAntes = medidorTrafico.getBytesEnviados();
             }
             if (this.contador > 1) {
                 this.contador = 2;
-                this.recibidoAntes = test.getBytesRecibidos();
-                this.enviadoAntes = test.getBytesEnviados();
-                this.test.run();
+                this.recibidoAntes = medidorTrafico.getBytesRecibidos();
+                this.enviadoAntes = medidorTrafico.getBytesEnviados();
+                this.medidorTrafico.run();
 
-                this.diferenciaRecibido = test.getBytesRecibidos() - this.recibidoAntes;
-                this.diferenciaEnviado = test.getBytesEnviados() - this.enviadoAntes;
+                this.diferenciaRecibido = medidorTrafico.getBytesRecibidos() - this.recibidoAntes;
+                this.diferenciaEnviado = medidorTrafico.getBytesEnviados() - this.enviadoAntes;
 
                 this.throughputRecibido = (double) (diferenciaRecibido * 8) / 1000000;
                 this.throughputEnviado = (double) (diferenciaEnviado * 8) / 1000000;
             }
 
-            if ((double) test.getAnchoBanda() / 1000000 == 0) {
+            if ((double) medidorTrafico.getAnchoBanda() / 1000000 == 0) {
                 this.anchoBanda = 100;
             } else {
-                this.anchoBanda = (double) test.getAnchoBanda() / 1000000;
+                this.anchoBanda = (double) medidorTrafico.getAnchoBanda() / 1000000;
             }
             
             this.jLabelAnchoBanda.setText("Ancho de banda: " + round(this.anchoBanda, 2) + " Mbps");
-            this.gaugeRecibido.setMaxValue(this.anchoBanda);
-            this.gaugeEnviado.setMaxValue(this.anchoBanda);
-            this.gaugeRecibido.setValueAnimated(throughputRecibido);
-            this.gaugeEnviado.setValueAnimated(throughputEnviado);
+            this.odometroRecibido.setMaxValue(this.anchoBanda);
+            this.odometroEnviado.setMaxValue(this.anchoBanda);
+            this.odometroRecibido.setValueAnimated(throughputRecibido);
+            this.odometroEnviado.setValueAnimated(throughputEnviado);
 
             if (this.throughputRecibido < 1) {
                 if (this.throughputRecibido < 0.001) {
@@ -318,7 +318,7 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         String datosInterface = (String) jComboBoxInterfaces.getSelectedItem();
         int pointIndex = datosInterface.indexOf(".");
         this.nInterface = Integer.parseInt(datosInterface.substring(0, pointIndex));
-        test.setnInterface(nInterface);
+        medidorTrafico.setnInterface(nInterface);
 
         //dejar estos atributos en 0 para no obtener valores negativos
         this.contador = 0;
@@ -326,40 +326,40 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         this.recibidoAntes = 0;
         this.throughputRecibido = 0;
         this.throughputEnviado = 0;
-        this.gaugeRecibido.setMaxValue(100);
-        this.gaugeEnviado.setMaxValue(100);
+        this.odometroRecibido.setMaxValue(100);
+        this.odometroEnviado.setMaxValue(100);
 
         //mirar si lo optimizamos
         this.contador++;
         if (this.contador == 1) {
-            this.test.run();
-            this.recibidoAntes = test.getBytesRecibidos();
-            this.enviadoAntes = test.getBytesEnviados();
+            this.medidorTrafico.run();
+            this.recibidoAntes = medidorTrafico.getBytesRecibidos();
+            this.enviadoAntes = medidorTrafico.getBytesEnviados();
         }
         if (this.contador > 1) {
             this.contador = 2;
-            this.recibidoAntes = test.getBytesRecibidos();
-            this.enviadoAntes = test.getBytesEnviados();
-            this.test.run();
+            this.recibidoAntes = medidorTrafico.getBytesRecibidos();
+            this.enviadoAntes = medidorTrafico.getBytesEnviados();
+            this.medidorTrafico.run();
 
-            this.diferenciaRecibido = test.getBytesRecibidos() - this.recibidoAntes;
-            this.diferenciaEnviado = test.getBytesEnviados() - this.enviadoAntes;
+            this.diferenciaRecibido = medidorTrafico.getBytesRecibidos() - this.recibidoAntes;
+            this.diferenciaEnviado = medidorTrafico.getBytesEnviados() - this.enviadoAntes;
 
             this.throughputRecibido = (double) (diferenciaRecibido * 8) / 1000000;
             this.throughputEnviado = (double) (diferenciaEnviado * 8) / 1000000;
         }
 
-        if ((double) test.getAnchoBanda() / 1000000 == 0) {
+        if ((double) medidorTrafico.getAnchoBanda() / 1000000 == 0) {
             this.anchoBanda = 100;
         } else {
-            this.anchoBanda = (double) test.getAnchoBanda() / 1000000;
+            this.anchoBanda = (double) medidorTrafico.getAnchoBanda() / 1000000;
         }
 
         this.jLabelAnchoBanda.setText("Ancho de banda: " + round(this.anchoBanda, 2) + " Mbps");
-        this.gaugeRecibido.setMaxValue(this.anchoBanda);
-        this.gaugeEnviado.setMaxValue(this.anchoBanda);
-        this.gaugeRecibido.setValueAnimated(throughputRecibido);
-        this.gaugeEnviado.setValueAnimated(throughputEnviado);
+        this.odometroRecibido.setMaxValue(this.anchoBanda);
+        this.odometroEnviado.setMaxValue(this.anchoBanda);
+        this.odometroRecibido.setValueAnimated(throughputRecibido);
+        this.odometroEnviado.setValueAnimated(throughputEnviado);
 
         if (this.throughputRecibido < 1) {
             if (this.throughputRecibido < 0.001) {
