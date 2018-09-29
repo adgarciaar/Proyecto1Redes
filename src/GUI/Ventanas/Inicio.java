@@ -16,8 +16,8 @@ import java.awt.event.ComponentListener;
  */
 public class Inicio extends javax.swing.JFrame {
 
-    private javax.swing.Timer temporizador;
-    private boolean bandera;
+    private javax.swing.Timer temporizador; //para capturar paquetes cada segundo
+    private boolean bandera; //para conocer si se estaba ejecutando el hilo de medición de throughput
 
     /**
      * Creates new form Inicio
@@ -25,12 +25,14 @@ public class Inicio extends javax.swing.JFrame {
     public Inicio() {
         initComponents();
         bandera = false;
+        //Listener para detectar si esta ventana está visible
         ComponentListener listener;
         listener = new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent evt) {
                 Component c = (Component) evt.getSource();
-                //System.out.println("Component is now visible");
+                //si la ventana está visible y antes se estaba midiendo throughput
+                //entonces se detiene el timer y se inicializa la bandera
                 if(bandera == true){
                     temporizador.stop();
                     bandera = false;
@@ -158,19 +160,19 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalirActionPerformed
-        System.exit(0);
+        System.exit(0); //finalizar ejecución del programa
     }//GEN-LAST:event_buttonSalirActionPerformed
 
     private void buttonMedirThroughputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMedirThroughputActionPerformed
         this.setVisible(false);
-
+        //se genera una ventana de MedicionThroughput
         MedicionThroughput frame = new MedicionThroughput(this);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-
-        bandera = true;
-        
+        //se inicializa el timer para la medición de throughput
+        //se extraen datos cada segundo para medir los bps
+        bandera = true;        
         int time = 1000;        
         this.temporizador = new javax.swing.Timer(time, frame);
         this.temporizador.setInitialDelay(1);
@@ -179,7 +181,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void buttonCapturarFramesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCapturarFramesActionPerformed
         this.setVisible(false);
-        new AnalizadorPaquetes(this).setVisible(true);
+        new AnalizadorPaquetes(this).setVisible(true); //nueva ventana para la captura de paquetes
     }//GEN-LAST:event_buttonCapturarFramesActionPerformed
 
     /**
@@ -210,7 +212,8 @@ public class Inicio extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {            
+        java.awt.EventQueue.invokeLater(() -> {       
+            //se inicializa el proyecto
             new Inicio().setVisible(true);
         });
     }

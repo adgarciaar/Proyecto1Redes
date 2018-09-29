@@ -19,14 +19,14 @@ import jpcap.NetworkInterface;
  */
 public class AnalizadorPaquetes extends javax.swing.JFrame {
 
-    public static NetworkInterface[] listaInterfaces;
-    public static JpcapCaptor capturador;
-    jpcap_thread hilo;
-    public static int indiceInterface;    
-    boolean estadoCaptura;
-    public static int numeroPaquete;
-    private final JFrame ventanaInicio;
-    public static double tiempoInicio;
+    public static NetworkInterface[] listaInterfaces; //lista de las interfaces de red
+    public static JpcapCaptor capturador; //capturador de paquetes de jpcap
+    jpcap_thread hilo; //hilo para ejecutar la captura de paquetes
+    public static int indiceInterface; //número de la interface de red seleccionada
+    boolean estadoCaptura; //estado de captura de paquetes
+    public static int numeroPaquete; //numero de paquete para JTable
+    private final JFrame ventanaInicio; //ventana de inicio en caso de regresar
+    public static double tiempoInicio; //tiempo de inicio de captura (time del sistema)
     
     /**
      * Creates new form AnalizadorMensajes
@@ -35,14 +35,15 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
      */
     public AnalizadorPaquetes(JFrame ventanaInicio) {
         initComponents();
-
+        //inicialización variables
         indiceInterface = 0; //interface               
         estadoCaptura = false;
         numeroPaquete = 1;
         listaInterfaces = JpcapCaptor.getDeviceList();
 
         this.ventanaInicio = ventanaInicio;
-        listaInterfaces = JpcapCaptor.getDeviceList();
+        //obtener las interfaces de red detectadas y listarlas en el combobox
+        listaInterfaces = JpcapCaptor.getDeviceList(); 
         int numeroDispositivo = -1;
         for (NetworkInterface dispositivo : listaInterfaces) {
             numeroDispositivo += 1;
@@ -53,19 +54,22 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     }
 
     public void CapturePackets() {
-
+        //se crea hilo que realiza la captura continuamente
         hilo = new jpcap_thread() {
 
             @Override
             public Object construct() {
                 try {
+                    //se capturan paquetes en interface seleccionada en modo no promiscuo refrescando cada 1000 ms
                     capturador = JpcapCaptor.openDevice(listaInterfaces[indiceInterface], 65535, false, 1000);
-                    tiempoInicio = (double)System.currentTimeMillis();      
-                    
-                    while (estadoCaptura) {
+                    //inicializar tiempo con el time del sistema
+                    tiempoInicio = (double)System.currentTimeMillis();                          
+                    while (estadoCaptura) { //mientras no se presione detener captura
+                        //se capturan paquetes que se muestran en jtable y se guardan en una lista
                         capturador.processPacket(1, new PacketContents());
                         //packetList.add(CAP.getPacket());                       
                     }
+                    //se cierra el capturador al presionar detener captura
                     capturador.close();
 
                 } catch (IOException e) {
@@ -233,68 +237,65 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCapturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCapturarActionPerformed
+        //se limpia el JTable y se inicializa numeroPaquete desde 1
         DefaultTableModel model = (DefaultTableModel) jTablePaquetes.getModel();
         model.setRowCount(0);
         numeroPaquete = 1;
-        //PacketContents.rowList.clear();
-        jTextAreaDetalles.setText("");
-        //packetList.clear();
-
+        //se limpian el JTextArea
+        jTextAreaDetalles.setText("");       
+        //se habilitan y deshabilitan los respectivos componentes
         jButtonCapturar.setEnabled(false);
         jButtonDetener.setEnabled(true);
         jComboBoxInterfaces.setEnabled(false);
-
+        //se extrae el número de interface seleccionado para realizar captura
         String datosInterface = (String) jComboBoxInterfaces.getSelectedItem();
         int pointIndex = datosInterface.indexOf(".");
         int idInterface = Integer.parseInt(datosInterface.substring(0, pointIndex));
-        //System.out.println(idInterface);      
-
         indiceInterface = idInterface;
-
+        //se inicia la captura de paquetes iniciando el hilo
         estadoCaptura = true;
         CapturePackets();
     }//GEN-LAST:event_jButtonCapturarActionPerformed
 
     private void jButtonDetenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetenerActionPerformed
+        //se detiene la captura de paquetes finalizando el hilo
         estadoCaptura = false;
-        hilo.finished();        
+        hilo.finished();
+        //se habilitan y deshabilitan los respectivos componentes
         jButtonCapturar.setEnabled(true);
         jButtonDetener.setEnabled(false);
         jComboBoxInterfaces.setEnabled(true);
     }//GEN-LAST:event_jButtonDetenerActionPerformed
 
     private void jButtonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegresarActionPerformed
-        if(estadoCaptura == true){
+        if(estadoCaptura == true){ //en caso de estar capturando se detiene hilo
             estadoCaptura = false;
             hilo.finished();  
         }
+        //regreso a la ventana de inicio
         this.dispose();
         this.ventanaInicio.setVisible(true);
     }//GEN-LAST:event_jButtonRegresarActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        System.exit(0);
+        System.exit(0); //finalizar ejecución del programa
     }//GEN-LAST:event_jButtonSalirActionPerformed
-
+    //evento de seleccionar un paquete en el JTable
     private void jTablePaquetesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePaquetesMouseClicked
-        jTextAreaDetalles.setText("");
+        jTextAreaDetalles.setText(""); //limpiar el JTextArea
+        //conseguir el número de paquete seleccionado
         Object obj = jTablePaquetes.getModel().getValueAt(jTablePaquetes.getSelectedRow(), 0);
         int nPaquete = (int) obj;
-        nPaquete -= 1;
-        
+        nPaquete -= 1;        
         //extracción de los datos del paquete Ethernet
         String macFuente = PacketContents.listaEthernet.get(nPaquete).getSourceAddress();        
         String macDestino = PacketContents.listaEthernet.get(nPaquete).getDestinationAddress();   
-        
+        //revisar el tipo de tipo Ethernet
         String infoCompletaEthernet = PacketContents.listaEthernet.get(nPaquete).toString();
         int indicePrimerParentesis = infoCompletaEthernet.indexOf('('); 
         int indiceUltimoParentesis = infoCompletaEthernet.indexOf(')'); 
         int ethernetType= Integer.parseInt(infoCompletaEthernet.substring(indicePrimerParentesis+1, indiceUltimoParentesis));
-        String tipoEthernet = "";
-        
-        //String hex = Integer.toHexString(ethernetType);        
-        //System.out.println(hex);
-        
+        String tipoEthernet = "";            
         switch (ethernetType) {
             case 2048:  
                 tipoEthernet = "IP (0x0800)";
@@ -318,7 +319,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                 tipoEthernet = "Loop (0x9000)";
                 break;                
         }
-        
+        //dependiendo del tipo de paquete se imprimen sus atributos
         if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "TCP") {
             
             byte[] byteDataTCP = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[9]; 
@@ -410,13 +411,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tProtocolo fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
                     + "\n\tDist hardware: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
                     + "\n\tProtocolo destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]
-                    + "\n\tLength: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1]
-                    //+ "\n\tChecksum: " + PacketContents.rowList.get(nPaquete)[5]
-                    + "\n\tHeader: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
-                    //+ "\n\tOffset: " + PacketContents.rowList.get(nPaquete)[7]
-                    //+ "\n\tOriginate TimeStamp: " + PacketContents.rowList.get(nPaquete)[8] + "bits"
-                    //+ "\n\tRecieve TimeStamp: " + PacketContents.rowList.get(nPaquete)[9] + "bits"
-                    //+ "\n\tTransmit TimeStamp: " + PacketContents.rowList.get(nPaquete)[10] + "bits"
+                    + "\n\tLength: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1]                    
+                    + "\n\tHeader: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]                    
                     + "\n\tData: " + stringDataARP
                     //información Ethernet
                     +"\nEthernet"

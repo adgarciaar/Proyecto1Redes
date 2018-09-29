@@ -2,7 +2,7 @@ package CapturaPaquetes;
 
 
 import javax.swing.SwingUtilities;
-
+//ejecuta un hilo para la captura de paquetes mientras el estado de captura sea true
 public abstract class jpcap_thread {
 
     private Object value;
@@ -38,7 +38,7 @@ public abstract class jpcap_thread {
 
     public void finished() {
     }
-
+    
     public void interrupt() {
         Thread t = threadVar.get();
         if (t != null) {
@@ -64,12 +64,14 @@ public abstract class jpcap_thread {
 
     public jpcap_thread() {
         final Runnable doFinished = new Runnable() {
+            @Override
             public void run() {
                 finished();
             }
         };
 
         Runnable doConstruct = new Runnable() {
+            @Override
             public void run() {
                 try {
                     setValue(construct());
@@ -82,7 +84,7 @@ public abstract class jpcap_thread {
         Thread t = new Thread(doConstruct);
         threadVar = new ThreadVar(t);
     }
-
+    
     public void start() {
         Thread t = threadVar.get();
         if (t != null) {

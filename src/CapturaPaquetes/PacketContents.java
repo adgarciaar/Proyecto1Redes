@@ -15,23 +15,27 @@ import jpcap.packet.EthernetPacket;
 
 public class PacketContents implements PacketReceiver {
 
-    public static TCPPacket tcp;
-    public static UDPPacket udp;
-    public static ICMPPacket icmp;
-    public static ARPPacket arp;
+    public static TCPPacket tcp; //paquete de tipo TCP
+    public static UDPPacket udp; //paquete de tipo UDP
+    public static ICMPPacket icmp; //paquete de tipo ICMP
+    public static ARPPacket arp; //paquete de tipo ARP
 
+    //lista para guardar los atributos de cada paquete
     public static List<Object[]> listaAtributosPaquetes = new ArrayList<Object[]>();
+    //lista para guardar paquetes Ethernet
     public static List<EthernetPacket> listaEthernet = new ArrayList<>();
     
     @Override
     public void receivePacket(Packet packet) {        
-        
+        //se obtiene modelo actual mostrado en jTable de paquetes de AnalizadorPaquetes
         DefaultTableModel model = (DefaultTableModel) AnalizadorPaquetes.jTablePaquetes.getModel();
+        //medir el tiempo en s de recepción del paquete respecto a cuando se empezó la captura
         double estimatedTime = (double)System.currentTimeMillis() - AnalizadorPaquetes.tiempoInicio;
         estimatedTime = estimatedTime/1000;
-        
+        //añadir paquete Ethernet a respectiva lista
         listaEthernet.add((EthernetPacket) packet.datalink);
-        
+        //dependiendo del tipo de paquete se añade su información principal en jtable
+        //y se guardan sus atributos en la respectiva lista
         if (packet instanceof TCPPacket) {
             tcp = (TCPPacket) packet;
 
@@ -67,7 +71,7 @@ public class PacketContents implements PacketReceiver {
 
         } else if (packet instanceof ARPPacket) {
             arp = (ARPPacket) packet;
-            
+            //distinguir si es de tipo Request o Reply
             String tipoARP = arp.toString();            
             int firstIndex = tipoARP.indexOf("REQUEST");
             String tipo="";
