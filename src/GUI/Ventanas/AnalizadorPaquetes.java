@@ -8,12 +8,8 @@ package GUI.Ventanas;
 import CapturaPaquetes.PacketContents;
 import CapturaPaquetes.jpcap_thread;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.bind.DatatypeConverter;
 import jpcap.JpcapCaptor;
 import jpcap.NetworkInterface;
 
@@ -23,14 +19,14 @@ import jpcap.NetworkInterface;
  */
 public class AnalizadorPaquetes extends javax.swing.JFrame {
 
-    public static NetworkInterface[] NETWORK_INTERFACES;
-    public static JpcapCaptor CAP;
-    jpcap_thread THREAD;
-    public static int INDEX;    
-    boolean CaptureState;
-    public static int No;
+    public static NetworkInterface[] listaInterfaces;
+    public static JpcapCaptor capturador;
+    jpcap_thread hilo;
+    public static int indiceInterface;    
+    boolean estadoCaptura;
+    public static int numeroPaquete;
     private final JFrame ventanaInicio;
-    public static double startTime;
+    public static double tiempoInicio;
     
     //public static List<Packet> packetList;
 
@@ -44,15 +40,15 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
 
         //writer = null;
         //packetList = new ArrayList<>();
-        INDEX = 1; //interface               
-        CaptureState = false;
-        No = 1;
-        NETWORK_INTERFACES = JpcapCaptor.getDeviceList();
+        indiceInterface = 1; //interface               
+        estadoCaptura = false;
+        numeroPaquete = 1;
+        listaInterfaces = JpcapCaptor.getDeviceList();
 
         this.ventanaInicio = ventanaInicio;
-        NETWORK_INTERFACES = JpcapCaptor.getDeviceList();
+        listaInterfaces = JpcapCaptor.getDeviceList();
         int numeroDispositivo = -1;
-        for (NetworkInterface dispositivo : NETWORK_INTERFACES) {
+        for (NetworkInterface dispositivo : listaInterfaces) {
             numeroDispositivo += 1;
             this.jComboBoxInterfaces.addItem(numeroDispositivo + ". " + dispositivo.name
                     + dispositivo.description + "-" + dispositivo.datalink_name + 
@@ -62,19 +58,19 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
 
     public void CapturePackets() {
 
-        THREAD = new jpcap_thread() {
+        hilo = new jpcap_thread() {
 
             @Override
             public Object construct() {
                 try {
-                    CAP = JpcapCaptor.openDevice(NETWORK_INTERFACES[INDEX], 65535, false, 1000);
-                    startTime = (double)System.currentTimeMillis();      
+                    capturador = JpcapCaptor.openDevice(listaInterfaces[indiceInterface], 65535, false, 1000);
+                    tiempoInicio = (double)System.currentTimeMillis();      
                     
-                    while (CaptureState) {
-                        CAP.processPacket(1, new PacketContents());
+                    while (estadoCaptura) {
+                        capturador.processPacket(1, new PacketContents());
                         //packetList.add(CAP.getPacket());                       
                     }
-                    CAP.close();
+                    capturador.close();
 
                 } catch (IOException e) {
                     System.out.print(e);
@@ -88,7 +84,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             }
         };
 
-        THREAD.start();
+        hilo.start();
 
     }
     
@@ -243,7 +239,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     private void jButtonCapturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCapturarActionPerformed
         DefaultTableModel model = (DefaultTableModel) jTablePaquetes.getModel();
         model.setRowCount(0);
-        No = 1;
+        numeroPaquete = 1;
         //PacketContents.rowList.clear();
         jTextAreaDetalles.setText("");
         //packetList.clear();
@@ -257,15 +253,15 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         int idInterface = Integer.parseInt(datosInterface.substring(0, pointIndex));
         //System.out.println(idInterface);      
 
-        INDEX = idInterface;
+        indiceInterface = idInterface;
 
-        CaptureState = true;
+        estadoCaptura = true;
         CapturePackets();
     }//GEN-LAST:event_jButtonCapturarActionPerformed
 
     private void jButtonDetenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetenerActionPerformed
-        CaptureState = false;
-        THREAD.finished();
+        estadoCaptura = false;
+        hilo.finished();
         jButtonCapturar.setEnabled(true);
         jButtonDetener.setEnabled(false);
         jComboBoxInterfaces.setEnabled(true);
@@ -329,25 +325,25 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                 break;                
         }
         
-        if (PacketContents.rowList.get(nPaquete)[4] == "TCP") {
+        if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "TCP") {
             
-            byte[] byteDataTCP = (byte[]) PacketContents.rowList.get(nPaquete)[9]; 
+            byte[] byteDataTCP = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[9]; 
             String stringDataTCP = new String(byteDataTCP);   
             
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
-                    + "\n\tSeq No: " + PacketContents.rowList.get(nPaquete)[10]
-                    + "\n\tProtocol: " + PacketContents.rowList.get(nPaquete)[4]
-                    + " (" +PacketContents.rowList.get(nPaquete)[13]+")"
-                    + "\n\tSource IP: " + PacketContents.rowList.get(nPaquete)[2]
-                    + "\n\tDist IP: " + PacketContents.rowList.get(nPaquete)[3]
-                    + "\n\tLength: " + PacketContents.rowList.get(nPaquete)[1]
-                    + "\n\tSource Port: " + PacketContents.rowList.get(nPaquete)[5]
-                    + "\n\tDist Port: " + PacketContents.rowList.get(nPaquete)[6]
-                    + "\n\tAck: " + PacketContents.rowList.get(nPaquete)[7]
-                    + "\n\tAck No: " + PacketContents.rowList.get(nPaquete)[8]
-                    + "\n\tSequence No: " + PacketContents.rowList.get(nPaquete)[10]
+                    + "\n\tSeq No: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
+                    + "\n\tProtocol: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
+                    + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[13]+")"
+                    + "\n\tSource IP: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
+                    + "\n\tDist IP: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
+                    + "\n\tLength: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1]
+                    + "\n\tSource Port: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]
+                    + "\n\tDist Port: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]
+                    + "\n\tAck: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
+                    + "\n\tAck No: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8]
+                    + "\n\tSequence No: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
                     //+ "\nOffset: " + PacketContents.rowList.get((int) obj)[11]
-                    + "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[12]                                   
+                    + "\n\tHeader: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[12]                                   
                     + "\n\tData: " + stringDataTCP
                     //información Ethernet
                     +"\nEthernet"
@@ -356,21 +352,21 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"\n\tDestino: " + macDestino
             );
 
-        } else if (PacketContents.rowList.get(nPaquete)[4] == "UDP") {
+        } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "UDP") {
             
-            byte[] byteDataUDP = (byte[]) PacketContents.rowList.get(nPaquete)[7]; 
+            byte[] byteDataUDP = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[7]; 
             String stringDataUDP = new String(byteDataUDP);
             
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
-                    + "\n\tProtocol:" + PacketContents.rowList.get(nPaquete)[4]
-                    + " (" +PacketContents.rowList.get(nPaquete)[10]+")"
-                    + "\n\tSource IP: " + PacketContents.rowList.get(nPaquete)[2]
-                    + "\n\tDist IP: " + PacketContents.rowList.get(nPaquete)[3]
-                    + "\n\tLength: " + PacketContents.rowList.get(nPaquete)[1]
-                    + "\n\tSource Port: " + PacketContents.rowList.get(nPaquete)[5]
-                    + "\n\tDist Port: " + PacketContents.rowList.get(nPaquete)[6]
-                    + "\n\tOffset: " + PacketContents.rowList.get(nPaquete)[8]
-                    + "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[9]
+                    + "\n\tProtocol:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
+                    + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[10]+")"
+                    + "\n\tSource IP: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
+                    + "\n\tDist IP: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
+                    + "\n\tLength: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1]
+                    + "\n\tSource Port: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]
+                    + "\n\tDist Port: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]
+                    + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8]
+                    + "\n\tHeader: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9]
                     + "\n\tData: " + stringDataUDP
                     //información Ethernet
                     +"\nEthernet"
@@ -379,27 +375,27 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"\n\tDestino: " + macDestino
             );
 
-        } else if (PacketContents.rowList.get(nPaquete)[4] == "ICMP") {
+        } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "ICMP") {
             
-            byte[] byteDataICMP = (byte[]) PacketContents.rowList.get(nPaquete)[11]; 
-            short shortChecksum = (short) PacketContents.rowList.get(nPaquete)[5];
+            byte[] byteDataICMP = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[11]; 
+            short shortChecksum = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[5];
             
             String intHexString = Integer.toHexString(shortChecksum);
             String shortHexString = "0x"+intHexString.substring(4);
             String stringDataICMP = new String(byteDataICMP);
             
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
-                    + "\n\tProtocol:" + PacketContents.rowList.get(nPaquete)[4]
-                    + " (" +PacketContents.rowList.get(nPaquete)[12]+")" 
-                    + "\n\tSource IP: " + PacketContents.rowList.get(nPaquete)[2]
-                    + "\n\tDist IP: " + PacketContents.rowList.get(nPaquete)[3]
-                    + "\n\tLength: " + PacketContents.rowList.get(nPaquete)[1]
+                    + "\n\tProtocol:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
+                    + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[12]+")" 
+                    + "\n\tSource IP: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
+                    + "\n\tDist IP: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
+                    + "\n\tLength: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1]
                     + "\n\tChecksum: " + shortHexString
-                    + "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[6]
-                    + "\n\tOffset: " + PacketContents.rowList.get(nPaquete)[7]
-                    + "\n\tOriginate TimeStamp: " + PacketContents.rowList.get(nPaquete)[8] + "bits"
-                    + "\n\tRecieve TimeStamp: " + PacketContents.rowList.get(nPaquete)[9] + "bits"
-                    + "\n\tTransmit TimeStamp: " + PacketContents.rowList.get(nPaquete)[10] + "bits"
+                    + "\n\tHeader: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]
+                    + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
+                    + "\n\tOriginate TimeStamp: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8] + "bits"
+                    + "\n\tRecieve TimeStamp: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9] + "bits"
+                    + "\n\tTransmit TimeStamp: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10] + "bits"
                     + "\n\tData: " + stringDataICMP
                     //información Ethernet
                     +"\nEthernet"
@@ -408,20 +404,20 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"\n\tDestino: " + macDestino
             );
            
-        } else if (PacketContents.rowList.get(nPaquete)[6] == "ARP") {     
+        } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[6] == "ARP") {     
             
-            byte[] byteDataARP = (byte[]) PacketContents.rowList.get(nPaquete)[8]; 
+            byte[] byteDataARP = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[8]; 
             String stringDataARP = new String(byteDataARP);
             
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
-                    + "\n\tProtocol:" + PacketContents.rowList.get(nPaquete)[6]                    
-                    + "\n\tSource hardware: " + PacketContents.rowList.get(nPaquete)[2]
-                    + "\n\tProtocolo fuente: " + PacketContents.rowList.get(nPaquete)[3]
-                    + "\n\tDist hardware: " + PacketContents.rowList.get(nPaquete)[4]
-                    + "\n\tProtocolo destino: " + PacketContents.rowList.get(nPaquete)[5]
-                    + "\n\tLength: " + PacketContents.rowList.get(nPaquete)[1]
+                    + "\n\tProtocol:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]                    
+                    + "\n\tSource hardware: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
+                    + "\n\tProtocolo fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
+                    + "\n\tDist hardware: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
+                    + "\n\tProtocolo destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]
+                    + "\n\tLength: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1]
                     //+ "\n\tChecksum: " + PacketContents.rowList.get(nPaquete)[5]
-                    + "\n\tHeader: " + PacketContents.rowList.get(nPaquete)[7]
+                    + "\n\tHeader: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
                     //+ "\n\tOffset: " + PacketContents.rowList.get(nPaquete)[7]
                     //+ "\n\tOriginate TimeStamp: " + PacketContents.rowList.get(nPaquete)[8] + "bits"
                     //+ "\n\tRecieve TimeStamp: " + PacketContents.rowList.get(nPaquete)[9] + "bits"
