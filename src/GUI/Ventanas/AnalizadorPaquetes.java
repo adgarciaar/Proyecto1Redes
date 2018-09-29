@@ -28,8 +28,6 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     private final JFrame ventanaInicio;
     public static double tiempoInicio;
     
-    //public static List<Packet> packetList;
-
     /**
      * Creates new form AnalizadorMensajes
      *
@@ -38,9 +36,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     public AnalizadorPaquetes(JFrame ventanaInicio) {
         initComponents();
 
-        //writer = null;
-        //packetList = new ArrayList<>();
-        indiceInterface = 1; //interface               
+        indiceInterface = 0; //interface               
         estadoCaptura = false;
         numeroPaquete = 1;
         listaInterfaces = JpcapCaptor.getDeviceList();
@@ -268,6 +264,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDetenerActionPerformed
 
     private void jButtonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegresarActionPerformed
+        estadoCaptura = false;
+        hilo.finished();        
         this.dispose();
         this.ventanaInicio.setVisible(true);
     }//GEN-LAST:event_jButtonRegresarActionPerformed
