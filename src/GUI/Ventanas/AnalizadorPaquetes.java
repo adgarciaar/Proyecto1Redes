@@ -257,15 +257,17 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
 
     private void jButtonDetenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetenerActionPerformed
         estadoCaptura = false;
-        hilo.finished();
+        hilo.finished();        
         jButtonCapturar.setEnabled(true);
         jButtonDetener.setEnabled(false);
         jComboBoxInterfaces.setEnabled(true);
     }//GEN-LAST:event_jButtonDetenerActionPerformed
 
     private void jButtonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegresarActionPerformed
-        estadoCaptura = false;
-        hilo.finished();        
+        if(estadoCaptura == true){
+            estadoCaptura = false;
+            hilo.finished();  
+        }
         this.dispose();
         this.ventanaInicio.setVisible(true);
     }//GEN-LAST:event_jButtonRegresarActionPerformed
