@@ -402,10 +402,10 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
                     + "\n\tProtocolo:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]  
                     + "\n\tTipo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9]
-                    + "\n\tHardware fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
-                    + "\n\tProtocolo fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
-                    + "\n\tHardware destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
-                    + "\n\tProtocolo destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]
+                    + "\n\tMAC fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
+                    + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
+                    + "\n\tMAC destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
+                    + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]
                     + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"         
                     + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7] + " bytes"                 
                     + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8] + " bytes"

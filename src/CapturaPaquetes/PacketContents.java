@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import jpcap.packet.TCPPacket;
 import jpcap.packet.UDPPacket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import jpcap.packet.ARPPacket;
@@ -124,8 +125,9 @@ public class PacketContents implements PacketReceiver {
                 arp.getSenderHardwareAddress(), arp.getTargetHardwareAddress(), 
                 "ARP", packet.len};
             listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, 
-                arp.len, arp.sender_hardaddr, arp.sender_protoaddr,arp.target_hardaddr, 
-                arp.target_protoaddr,"ARP", arp.header.length,arp.data.length,
+                arp.len, arp.getSenderHardwareAddress(), arp.getSenderProtocolAddress(),
+                arp.getTargetHardwareAddress(), arp.getTargetProtocolAddress(),
+                "ARP", arp.header.length,arp.data.length,
                 tipo,dateFormat.format(date)});           
 
             model.addRow(row);
