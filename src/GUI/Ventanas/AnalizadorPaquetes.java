@@ -326,6 +326,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             String stringDataTCP = new String(byteDataTCP);   
             
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
+                    + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[14]
                     + "\n\tSeq No: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
                     + "\n\tProtocol: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
                     + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[13]+")"
@@ -353,6 +354,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             String stringDataUDP = new String(byteDataUDP);
             
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
+                    + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[11]
                     + "\n\tProtocol:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
                     + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[10]+")"
                     + "\n\tSource IP: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
@@ -380,6 +382,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             String stringDataICMP = new String(byteDataICMP);
             
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
+                    + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[13]
                     + "\n\tProtocol:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
                     + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[12]+")" 
                     + "\n\tSource IP: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
@@ -405,6 +408,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             String stringDataARP = new String(byteDataARP);            
             
             jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
+                    + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
                     + "\n\tProtocol:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]  
                     + "\n\tTipo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9]
                     + "\n\tSource hardware: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
@@ -421,7 +425,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"\n\tDestino: " + macDestino
             );
         } else {
-            jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)                    
+            jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)     
+                    + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9]
                     + "\n\tProtocol: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
                     + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[8]+")"
                     + "\n\tSource IP: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
