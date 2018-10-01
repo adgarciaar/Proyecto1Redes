@@ -241,6 +241,9 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTablePaquetes.getModel();
         model.setRowCount(0);
         numeroPaquete = 1;
+        //se limpian las listas de paquetes
+        PacketContents.listaEthernet.clear();
+        PacketContents.listaAtributosPaquetes.clear();
         //se limpian el JTextArea
         jTextAreaDetalles.setText("");       
         //se habilitan y deshabilitan los respectivos componentes

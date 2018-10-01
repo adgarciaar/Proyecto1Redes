@@ -10,7 +10,6 @@ import javax.swing.table.DefaultTableModel;
 import jpcap.packet.TCPPacket;
 import jpcap.packet.UDPPacket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import jpcap.packet.ARPPacket;
