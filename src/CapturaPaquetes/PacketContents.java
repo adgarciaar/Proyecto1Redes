@@ -12,9 +12,11 @@ import java.util.List;
 import jpcap.packet.ARPPacket;
 import jpcap.packet.ICMPPacket;
 import jpcap.packet.EthernetPacket;
+import jpcap.packet.IPPacket;
 
 public class PacketContents implements PacketReceiver {
 
+    public static IPPacket ip; //paquete de tipo IP
     public static TCPPacket tcp; //paquete de tipo TCP
     public static UDPPacket udp; //paquete de tipo UDP
     public static ICMPPacket icmp; //paquete de tipo ICMP
@@ -36,40 +38,57 @@ public class PacketContents implements PacketReceiver {
         listaEthernet.add((EthernetPacket) packet.datalink);
         //dependiendo del tipo de paquete se añade su información principal en jtable
         //y se guardan sus atributos en la respectiva lista
-        if (packet instanceof TCPPacket) {
-            tcp = (TCPPacket) packet;
+        if(packet instanceof IPPacket) {
+            if (packet instanceof TCPPacket) {
+                tcp = (TCPPacket) packet;
 
-            Object[] row = {AnalizadorPaquetes.numeroPaquete, estimatedTime, tcp.src_ip, tcp.dst_ip, "TCP", packet.len};
-            listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, tcp.length, tcp.src_ip, tcp.dst_ip, "TCP", tcp.src_port, tcp.dst_port,
-                tcp.ack, tcp.ack_num, tcp.data, tcp.sequence, tcp.offset, tcp.header, tcp.protocol});           
-            
-            model.addRow(row);
-            AnalizadorPaquetes.numeroPaquete++;
+                Object[] row = {AnalizadorPaquetes.numeroPaquete, estimatedTime, tcp.src_ip, tcp.dst_ip, "TCP", packet.len};
+                listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, packet.len, tcp.src_ip, tcp.dst_ip, "TCP", tcp.src_port, tcp.dst_port,
+                    tcp.ack, tcp.ack_num, tcp.data, tcp.sequence, tcp.offset, tcp.header, tcp.protocol});           
 
-        } else if (packet instanceof UDPPacket) {
+                model.addRow(row);
+                AnalizadorPaquetes.numeroPaquete++;
 
-            udp = (UDPPacket) packet;
+            } else if (packet instanceof UDPPacket) {
 
-            Object[] row = {AnalizadorPaquetes.numeroPaquete, estimatedTime, udp.src_ip, udp.dst_ip, "UDP",packet.len};
-            listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, udp.length, udp.src_ip, udp.dst_ip, "UDP", udp.src_port, udp.dst_port,
-                udp.data, udp.offset, udp.header, udp.protocol});
-            
-            model.addRow(row);
-            AnalizadorPaquetes.numeroPaquete++;
+                udp = (UDPPacket) packet;
 
-        } else if (packet instanceof ICMPPacket) {
+                Object[] row = {AnalizadorPaquetes.numeroPaquete, estimatedTime, udp.src_ip, udp.dst_ip, "UDP",packet.len};
+                listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, packet.len, udp.src_ip, udp.dst_ip, "UDP", udp.src_port, udp.dst_port,
+                    udp.data, udp.offset, udp.header, udp.protocol});
 
-            icmp = (ICMPPacket) packet;
+                model.addRow(row);
+                AnalizadorPaquetes.numeroPaquete++;
 
-            Object[] row = {AnalizadorPaquetes.numeroPaquete, estimatedTime, icmp.src_ip, 
-                icmp.dst_ip, "ICMP",packet.len};
-            listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, icmp.length, icmp.src_ip, icmp.dst_ip, "ICMP", icmp.checksum, icmp.header,
-                icmp.offset, icmp.orig_timestamp, icmp.recv_timestamp, icmp.trans_timestamp, icmp.data, icmp.protocol});
-            
-            model.addRow(row);
-            AnalizadorPaquetes.numeroPaquete++;
+            } else if (packet instanceof ICMPPacket) {
 
-        } else if (packet instanceof ARPPacket) {
+                icmp = (ICMPPacket) packet;
+
+                Object[] row = {AnalizadorPaquetes.numeroPaquete, estimatedTime, icmp.src_ip, 
+                    icmp.dst_ip, "ICMP",packet.len};
+                listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, packet.len, icmp.src_ip, icmp.dst_ip, "ICMP", icmp.checksum, icmp.header,
+                    icmp.offset, icmp.orig_timestamp, icmp.recv_timestamp, icmp.trans_timestamp, icmp.data, icmp.protocol});
+
+                model.addRow(row);
+                AnalizadorPaquetes.numeroPaquete++;
+            } else {
+                ip = (IPPacket) packet;     
+                String tipoProtocolo = "("+Short.toString(ip.protocol)+")";
+                switch(ip.protocol){
+                    case 2:
+                        tipoProtocolo = "IGMP";
+                        break;                    
+                }
+                
+                Object[] row = {AnalizadorPaquetes.numeroPaquete, estimatedTime, ip.src_ip, 
+                    ip.dst_ip, tipoProtocolo, packet.len};
+                listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, packet.len, ip.src_ip, ip.dst_ip, ip.protocol, ip.header,
+                    ip.offset, ip.data, tipoProtocolo });
+
+                model.addRow(row);
+                AnalizadorPaquetes.numeroPaquete++;                
+            }
+        }else if (packet instanceof ARPPacket) {
             arp = (ARPPacket) packet;
             //distinguir si es de tipo Request o Reply
             String tipoARP = arp.toString();            

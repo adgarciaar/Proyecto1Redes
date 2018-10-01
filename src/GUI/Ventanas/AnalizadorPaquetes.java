@@ -317,7 +317,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                 break;
             case 36864:
                 tipoEthernet = "Loop (0x9000)";
-                break;                
+                break;            
         }
         //dependiendo del tipo de paquete se imprimen sus atributos
         if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "TCP") {
@@ -414,6 +414,22 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tLength: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1]                    
                     + "\n\tHeader: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]                    
                     + "\n\tData: " + stringDataARP
+                    //información Ethernet
+                    +"\nEthernet"
+                    +"\n\tProtocolo: "+tipoEthernet
+                    +"\n\tFuente: " + macFuente
+                    +"\n\tDestino: " + macDestino
+            );
+        } else {
+            jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)                    
+                    + "\n\tProtocol: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
+                    + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[8]+")"
+                    + "\n\tSource IP: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
+                    + "\n\tDist IP: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
+                    + "\n\tLength: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1]                    
+                    + "\n\tHeader: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]                                   
+                    + "\n\tData: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
+                    + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]
                     //información Ethernet
                     +"\nEthernet"
                     +"\n\tProtocolo: "+tipoEthernet
