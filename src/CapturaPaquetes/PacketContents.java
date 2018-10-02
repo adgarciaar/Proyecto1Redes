@@ -99,11 +99,13 @@ public class PacketContents implements PacketReceiver {
                 //adicionar row a jtable y aumentar en 1 el número de paquete
                 model.addRow(row);
                 AnalizadorPaquetes.numeroPaquete++;
-            } else {
-                
+            } else {                
                 //asignar respectivo nombre al protocolo según su número
                 String tipoProtocolo = "("+Short.toString(ip.protocol)+")";
                 switch(ip.protocol){
+                    case 1:                        
+                        tipoProtocolo = "ICMP fragmentado";
+                        break;
                     case 2:
                         tipoProtocolo = "IGMP";
                         break;                    

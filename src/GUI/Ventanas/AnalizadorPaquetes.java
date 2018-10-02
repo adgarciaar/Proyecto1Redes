@@ -518,6 +518,12 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]
             );
         } else {
+            String tipoProtocolo = "";
+            if("ICMP fragmentado".equals(PacketContents.listaAtributosPaquetes.get(nPaquete)[8])){
+                tipoProtocolo = "ICMP fragmentado";
+            }else{
+                tipoProtocolo = "Protocolo";
+            }
             jTextAreaDetalles.setText(
                     //información del paquete
                     "Paquete " + (nPaquete + 1)
@@ -537,8 +543,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + " (" + PacketContents.listaAtributosPaquetes.get(nPaquete)[4] + ")"
                     + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
                     + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
-                    //información protocolo
-                    + "\nProtocol"
+                    //información protocolo                    
+                    + "\n" + tipoProtocolo
                     + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]
             );
         }
