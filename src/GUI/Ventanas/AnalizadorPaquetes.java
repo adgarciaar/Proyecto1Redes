@@ -8,7 +8,6 @@ package GUI.Ventanas;
 import CapturaPaquetes.PacketContents;
 import CapturaPaquetes.jpcap_thread;
 import java.io.IOException;
-import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import jpcap.JpcapCaptor;
@@ -346,10 +345,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             int finInt;
             
             short punteroUrgente = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[23];
-            
-            byte[] byteOpcion = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[24];
-            String stringByteOpcion = Arrays.toString(byteOpcion);
-            
+                 
             if (reservado == true)
                 reservadoInt = 1;
             else
@@ -418,7 +414,6 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\t\tSYN: " + synInt
                     + "\n\tVentana: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[22]
                     + "\n\tPuntero urgente: " + punteroUrgente
-                    + "\n\tOpciones: " +stringByteOpcion
             );
 
         } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "UDP") {
