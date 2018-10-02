@@ -63,7 +63,8 @@ public class PacketContents implements PacketReceiver {
                     packet.len, tcp.src_ip, tcp.dst_ip, "TCP", tcp.src_port, tcp.dst_port,
                     tcp.ack, tcp.ack_num, tcp.data.length, tcp.sequence, tcp.offset, 
                     tcp.header.length, tcp.protocol, dateFormat.format(date),
-                    ip.version });                 
+                    ip.version, tcp.rsv1, tcp.urg, tcp.psh, tcp.rst, tcp.syn, 
+                    tcp.fin ,tcp.window, tcp.urgent_pointer, tcp.option});                 
                 //adicionar row a jtable y aumentar en 1 el número de paquete
                 model.addRow(row);
                 AnalizadorPaquetes.numeroPaquete++;                
