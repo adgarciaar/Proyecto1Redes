@@ -461,6 +461,11 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             String intHexStringIdentificador = Integer.toHexString(shortIdentificador);            
             String shortHexStringIdentificador = "0x" + intHexStringIdentificador;
 
+            short shortTTL = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[17];
+            String intHexStringTTL = Integer.toHexString(shortIdentificador);            
+            String shortHexStringTTL = intHexStringTTL;
+            
+                    
             jTextAreaDetalles.setText(
                     //información del paquete
                     "Paquete " + (nPaquete + 1)
@@ -491,6 +496,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tNúmero de secuencia: " + shortSecuencia + " (" +shortHexStringSecuencia + ")"
                     + "\n\tIdentificador: " + shortIdentificador + " (" +shortHexStringIdentificador + ")"
                     + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
+                    + "\n\tTime to live: " + shortHexStringTTL      
                     + "\n\tData: " + stringDataICMP
             );
 
@@ -530,11 +536,13 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9]
                     + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"
                     //información Ethernet
+                    + "\n"        
                     + "\nEthernet"
                     + "\n\tFuente: " + macFuente
                     + "\n\tDestino: " + macDestino
                     + "\n\tProtocolo: " + tipoEthernet
                     //información IP
+                    + "\n"         
                     + "\nInternet Protocol Version 4"
                     + "\n\tVersión: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
                     + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5] + " bytes"
@@ -543,7 +551,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + " (" + PacketContents.listaAtributosPaquetes.get(nPaquete)[4] + ")"
                     + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
                     + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
-                    //información protocolo                    
+                    //información protocolo
+                    + "\n"         
                     + "\n" + tipoProtocolo
                     + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]
             );
