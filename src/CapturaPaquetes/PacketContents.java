@@ -49,6 +49,9 @@ public class PacketContents implements PacketReceiver {
         //dependiendo del tipo de paquete se añade su información principal en jtable
         //y se guardan sus atributos en la respectiva lista
         if(packet instanceof IPPacket) {
+            
+            //conversión de paquete a su paquete más específico
+            ip = (IPPacket) packet;             
             if (packet instanceof TCPPacket) {
                 //conversión de paquete a su paquete más específico
                 tcp = (TCPPacket) packet;
@@ -59,10 +62,11 @@ public class PacketContents implements PacketReceiver {
                 listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, 
                     packet.len, tcp.src_ip, tcp.dst_ip, "TCP", tcp.src_port, tcp.dst_port,
                     tcp.ack, tcp.ack_num, tcp.data.length, tcp.sequence, tcp.offset, 
-                    tcp.header.length, tcp.protocol, dateFormat.format(date)});           
+                    tcp.header.length, tcp.protocol, dateFormat.format(date),
+                    ip.version });                 
                 //adicionar row a jtable y aumentar en 1 el número de paquete
                 model.addRow(row);
-                AnalizadorPaquetes.numeroPaquete++;
+                AnalizadorPaquetes.numeroPaquete++;                
 
             } else if (packet instanceof UDPPacket) {
                 //conversión de paquete a su paquete más específico
@@ -74,7 +78,7 @@ public class PacketContents implements PacketReceiver {
                 listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, 
                     packet.len, udp.src_ip, udp.dst_ip, "UDP", udp.src_port, udp.dst_port,
                     udp.data.length, udp.offset, udp.header.length, udp.protocol,
-                    dateFormat.format(date)});
+                    dateFormat.format(date),ip.version });
                 //adicionar row a jtable y aumentar en 1 el número de paquete
                 model.addRow(row);
                 AnalizadorPaquetes.numeroPaquete++;
@@ -90,13 +94,13 @@ public class PacketContents implements PacketReceiver {
                     packet.len, icmp.src_ip, icmp.dst_ip, "ICMP", icmp.checksum, icmp.header.length,
                     icmp.offset, icmp.orig_timestamp, icmp.recv_timestamp, 
                     icmp.trans_timestamp, icmp.data, icmp.protocol,dateFormat.format(date),
-                    icmp.header.length});
+                    icmp.data.length, ip.version });
+                
                 //adicionar row a jtable y aumentar en 1 el número de paquete
                 model.addRow(row);
                 AnalizadorPaquetes.numeroPaquete++;
             } else {
-                //conversión de paquete a su paquete más específico
-                ip = (IPPacket) packet; 
+                
                 //asignar respectivo nombre al protocolo según su número
                 String tipoProtocolo = "("+Short.toString(ip.protocol)+")";
                 switch(ip.protocol){
@@ -110,7 +114,8 @@ public class PacketContents implements PacketReceiver {
                 //adicionar objeto de atributos del paquete
                 listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, 
                     packet.len, ip.src_ip, ip.dst_ip, ip.protocol, ip.header.length,
-                    ip.offset, ip.data.length, tipoProtocolo,dateFormat.format(date) });
+                    ip.offset, ip.data.length, tipoProtocolo,dateFormat.format(date),ip.version });
+                
                 //adicionar row a jtable y aumentar en 1 el número de paquete
                 model.addRow(row);
                 AnalizadorPaquetes.numeroPaquete++;                
@@ -135,8 +140,7 @@ public class PacketContents implements PacketReceiver {
             listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, 
                 arp.len, arp.getSenderHardwareAddress(), arp.getSenderProtocolAddress(),
                 arp.getTargetHardwareAddress(), arp.getTargetProtocolAddress(),
-                "ARP", arp.header.length,arp.data.length,
-                tipo,dateFormat.format(date)});           
+                "ARP", arp.header.length,arp.data.length, tipo,dateFormat.format(date) });           
             //adicionar row a jtable y aumentar en 1 el número de paquete
             model.addRow(row);
             AnalizadorPaquetes.numeroPaquete++;

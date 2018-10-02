@@ -66,8 +66,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     tiempoInicio = (double)System.currentTimeMillis();                          
                     while (estadoCaptura) { //mientras no se presione detener captura
                         //se capturan paquetes que se muestran en jtable y se guardan en una lista
-                        capturador.processPacket(1, new PacketContents());
-                        //packetList.add(CAP.getPacket());                       
+                        capturador.processPacket(1, new PacketContents());                                         
                     }
                     //se cierra el capturador al presionar detener captura
                     capturador.close();
@@ -323,118 +322,150 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                 break;            
         }
         //dependiendo del tipo de paquete se imprimen sus atributos
-        if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "TCP") {           
+        if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "TCP") {       
             
-            jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
+            jTextAreaDetalles.setText(                    
+                    //información del paquete
+                    "Paquete " + (nPaquete+1)
                     + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[14]
-                    + "\n\tSeq No: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
+                    + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"
+                    //información Ethernet
+                    +"\nEthernet"
+                    +"\n\tFuente: " + macFuente
+                    +"\n\tDestino: " + macDestino
+                    +"\n\tProtocolo: "+tipoEthernet
+                    //información IP
+                    +"\nInternet Protocol Version 4"         
+                    + "\n\tVersión:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[15]
+                    + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[12] + " bytes"
+                    + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9] + " bytes"                    
                     + "\n\tProtocolo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
                     + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[13]+")"
                     + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
                     + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
-                    + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"
+                    //información TCP
+                    +"\nTransmission Control Protocol"
                     + "\n\tPuerto fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]
                     + "\n\tPuerto destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]
+                    + "\n\tSecuencia No: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]  
                     + "\n\tAck: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
-                    + "\n\tAck No: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8]
-                    + "\n\tSecuencia No: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]                    
-                    + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[12] + " bytes"                                
-                    + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9] + " bytes"
-                    //información Ethernet
-                    +"\nEthernet"
-                    +"\n\tProtocolo: "+tipoEthernet
-                    +"\n\tFuente: " + macFuente
-                    +"\n\tDestino: " + macDestino
-            );
+                    + "\n\tAck No: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8] 
+                    + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[11]  
+            );            
 
-        } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "UDP") {            
+        } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "UDP") {       
             
-            jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
-                    + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[11]
-                    + "\n\tProtocolo:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
-                    + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[10]+")"
-                    + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
-                    + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
-                    + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"
-                    + "\n\tPuerto fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]
-                    + "\n\tPuerto destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]
-                    + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8]
-                    + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9] + " bytes"
-                    + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7] + " bytes"
+            jTextAreaDetalles.setText(                    
+                    //información del paquete
+                    "Paquete " + (nPaquete+1)
+                    + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[11] 
+                    + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes" 
                     //información Ethernet
                     +"\nEthernet"
-                    +"\n\tProtocolo: "+tipoEthernet
                     +"\n\tFuente: " + macFuente
                     +"\n\tDestino: " + macDestino
+                    +"\n\tProtocolo: "+tipoEthernet
+                    //información IP
+                    +"\nInternet Protocol Version 4"         
+                    + "\n\tVersión:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[12]
+                    + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9] + " bytes" 
+                    + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7] + " bytes"                
+                    + "\n\tProtocolo:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[4] 
+                    + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[10]+")" 
+                    + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2] 
+                    + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3] 
+                    //información UDP
+                    +"\nUser Datagram Protocol"
+                    + "\n\tPuerto fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5] 
+                    + "\n\tPuerto destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]                                                
+                    + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8]            
             );
 
         } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "ICMP") {
             
-            byte[] byteDataICMP = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[11]; 
-            short shortChecksum = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[5];
+            byte[] byteDataICMP = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[11];
+            short shortChecksum = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[5]; 
             
             String intHexString = Integer.toHexString(shortChecksum);
             String shortHexString = "0x"+intHexString.substring(4);
-            String stringDataICMP = new String(byteDataICMP);
+            String stringDataICMP = new String(byteDataICMP);           
             
-            jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
-                    + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[13]
-                    + "\n\tProtocolo:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
-                    + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[12]+")" 
-                    + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
-                    + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
-                    + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"
-                    + "\n\tChecksum: " + shortHexString
-                    + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6] + " bytes"
-                    + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
-                    + "\n\tOriginate TimeStamp: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8] + "bits"
-                    + "\n\tRecieve TimeStamp: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9] + "bits"
-                    + "\n\tTransmit TimeStamp: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10] + "bits"
-                    + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[14] + " bytes"
-                    + "\n\tData: " + stringDataICMP
+            jTextAreaDetalles.setText(
+                    //información del paquete
+                    "Paquete " + (nPaquete+1)
+                    + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[13] 
+                    + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes" 
                     //información Ethernet
                     +"\nEthernet"
-                    +"\n\tProtocolo: "+tipoEthernet
                     +"\n\tFuente: " + macFuente
                     +"\n\tDestino: " + macDestino
+                    +"\n\tProtocolo: "+tipoEthernet
+                    //información IP
+                    +"\nInternet Protocol Version 4"         
+                    + "\n\tVersión:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[15]
+                    + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6] + " bytes" 
+                    + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[14] + " bytes"            
+                    + "\n\tProtocolo:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[4] 
+                    + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[12]+")"  
+                    + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2] 
+                    + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3] 
+                    + "\n\tChecksum: " + shortHexString
+                    //información ICMP
+                    +"\nInternet Control Message Protocol"                  
+                    + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
+                    + "\n\tOriginate TimeStamp: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8] + "bits"
+                    + "\n\tReceive TimeStamp: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9] + "bits"
+                    + "\n\tTransmit TimeStamp: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10] + "bits"                    
+                    + "\n\ttData: " + stringDataICMP                   
             );
            
         } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[6] == "ARP") {                  
             
-            jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)
+            jTextAreaDetalles.setText(
+                    //información del paquete
+                    "Paquete " + (nPaquete+1)                    
                     + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
+                    + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"
+                    + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7] + " bytes"                 
+                    + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8] + " bytes"
+                    //información Ethernet
+                    +"\nEthernet"                    
+                    +"\n\tFuente: " + macFuente
+                    +"\n\tDestino: " + macDestino
+                    +"\n\tProtocolo: "+tipoEthernet
+                    //información ARP
+                    +"\nAddress Resolution Protocol"
                     + "\n\tProtocolo:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]  
                     + "\n\tTipo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9]
                     + "\n\tMAC fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
                     + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
                     + "\n\tMAC destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
-                    + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]
-                    + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"         
-                    + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7] + " bytes"                 
-                    + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8] + " bytes"
-                    //información Ethernet
-                    +"\nEthernet"
-                    +"\n\tProtocolo: "+tipoEthernet
-                    +"\n\tFuente: " + macFuente
-                    +"\n\tDestino: " + macDestino
+                    + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]  
             );
         } else {
-            jTextAreaDetalles.setText("Packet No: " + (nPaquete+1)     
+            jTextAreaDetalles.setText(                    
+                    //información del paquete
+                    "Paquete " + (nPaquete+1)
                     + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9]
+                    + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"  
+                    //información Ethernet
+                    +"\nEthernet"
+                    +"\n\tFuente: " + macFuente
+                    +"\n\tDestino: " + macDestino
+                    +"\n\tProtocolo: "+tipoEthernet
+                    //información IP
+                    +"\nInternet Protocol Version 4"         
+                    + "\n\tVersión:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
+                    + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5] + " bytes"                                
+                    + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7] + " bytes"              
                     + "\n\tProtocolo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8]
                     + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[4]+")"
                     + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
                     + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
-                    + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"                 
-                    + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5] + " bytes"                                
-                    + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7] + " bytes"
-                    + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]
-                    //información Ethernet
-                    +"\nEthernet"
-                    +"\n\tProtocolo: "+tipoEthernet
-                    +"\n\tFuente: " + macFuente
-                    +"\n\tDestino: " + macDestino
-            );
+                    //información protocolo
+                    +"\nProtocol"
+                    + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]       
+            );            
         }
         
     }//GEN-LAST:event_jTablePaquetesMouseClicked
