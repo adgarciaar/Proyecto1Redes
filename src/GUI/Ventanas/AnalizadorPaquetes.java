@@ -461,10 +461,9 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             String intHexStringIdentificador = Integer.toHexString(shortIdentificador);            
             String shortHexStringIdentificador = "0x" + intHexStringIdentificador;
 
-            short shortTTL = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[17];
-            String intHexStringTTL = Integer.toHexString(shortIdentificador);            
-            String shortHexStringTTL = intHexStringTTL;
-            
+            //short shortTTL = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[17];
+            //String intHexStringTTL = Integer.toHexString(shortIdentificador);            
+            //String shortHexStringTTL = intHexStringTTL;            
                     
             jTextAreaDetalles.setText(
                     //información del paquete
@@ -496,7 +495,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tNúmero de secuencia: " + shortSecuencia + " (" +shortHexStringSecuencia + ")"
                     + "\n\tIdentificador: " + shortIdentificador + " (" +shortHexStringIdentificador + ")"
                     + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
-                    + "\n\tTime to live: " + shortHexStringTTL      
+                    //+ "\n\tTime to live: " + shortHexStringTTL      
                     + "\n\tData: " + stringDataICMP
             );
 
