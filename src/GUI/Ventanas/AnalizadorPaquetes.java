@@ -384,11 +384,11 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "ICMP") {
             
             byte[] byteDataICMP = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[8];
-            short shortChecksum = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[5]; 
-            
-            String intHexString = Integer.toHexString(shortChecksum);
-            String shortHexString = "0x"+intHexString.substring(4);
             String stringDataICMP = new String(byteDataICMP); 
+            
+            //short shortChecksum = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[5];             
+            //String intHexString = Integer.toHexString(shortChecksum);
+            //String shortHexString = "0x"+intHexString.substring(4);            
             
             jTextAreaDetalles.setText(
                     //información del paquete
@@ -408,12 +408,14 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tProtocolo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4] 
                     + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[9]+")"  
                     + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2] 
-                    + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]                    
-                    + "\n\tChecksum: " + shortHexString
+                    + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]                   
                     //información ICMP
                     +"\nInternet Control Message Protocol"    
                     + "\n\tTipo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[13]
                     + "\n\tCódigo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[14]
+                    + "\n\tChecksum: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]
+                    + "\n\tNúmero de secuencia: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[15]
+                    + "\n\tIdentificador: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[16]                    
                     + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]                                      
                     + "\n\tData: " + stringDataICMP                   
             );
