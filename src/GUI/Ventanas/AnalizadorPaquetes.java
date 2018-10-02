@@ -336,7 +336,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"\n\tProtocolo: "+tipoEthernet
                     //información IP
                     +"\nInternet Protocol Version 4"         
-                    + "\n\tVersión:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[15]
+                    + "\n\tVersión: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[15]
                     + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[12] + " bytes"
                     + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9] + " bytes"                    
                     + "\n\tProtocolo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
@@ -367,10 +367,10 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"\n\tProtocolo: "+tipoEthernet
                     //información IP
                     +"\nInternet Protocol Version 4"         
-                    + "\n\tVersión:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[12]
+                    + "\n\tVersión: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[12]
                     + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9] + " bytes" 
                     + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7] + " bytes"                
-                    + "\n\tProtocolo:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[4] 
+                    + "\n\tProtocolo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4] 
                     + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[10]+")" 
                     + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2] 
                     + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3] 
@@ -383,17 +383,17 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
 
         } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[4] == "ICMP") {
             
-            byte[] byteDataICMP = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[11];
+            byte[] byteDataICMP = (byte[]) PacketContents.listaAtributosPaquetes.get(nPaquete)[8];
             short shortChecksum = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[5]; 
             
             String intHexString = Integer.toHexString(shortChecksum);
             String shortHexString = "0x"+intHexString.substring(4);
-            String stringDataICMP = new String(byteDataICMP);           
+            String stringDataICMP = new String(byteDataICMP); 
             
             jTextAreaDetalles.setText(
                     //información del paquete
                     "Paquete " + (nPaquete+1)
-                    + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[13] 
+                    + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10] 
                     + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes" 
                     //información Ethernet
                     +"\nEthernet"
@@ -402,21 +402,20 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"\n\tProtocolo: "+tipoEthernet
                     //información IP
                     +"\nInternet Protocol Version 4"         
-                    + "\n\tVersión:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[15]
+                    + "\n\tVersión: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[12]
                     + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6] + " bytes" 
-                    + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[14] + " bytes"            
-                    + "\n\tProtocolo:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[4] 
-                    + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[12]+")"  
+                    + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[11] + " bytes"            
+                    + "\n\tProtocolo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4] 
+                    + " (" +PacketContents.listaAtributosPaquetes.get(nPaquete)[9]+")"  
                     + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2] 
-                    + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3] 
+                    + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]                    
                     + "\n\tChecksum: " + shortHexString
                     //información ICMP
-                    +"\nInternet Control Message Protocol"                  
-                    + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
-                    + "\n\tOriginate TimeStamp: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8] + "bits"
-                    + "\n\tReceive TimeStamp: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9] + "bits"
-                    + "\n\tTransmit TimeStamp: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10] + "bits"                    
-                    + "\n\ttData: " + stringDataICMP                   
+                    +"\nInternet Control Message Protocol"    
+                    + "\n\tTipo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[13]
+                    + "\n\tCódigo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[14]
+                    + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]                                      
+                    + "\n\tData: " + stringDataICMP                   
             );
            
         } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[6] == "ARP") {                  
@@ -435,7 +434,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"\n\tProtocolo: "+tipoEthernet
                     //información ARP
                     +"\nAddress Resolution Protocol"
-                    + "\n\tProtocolo:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]  
+                    + "\n\tProtocolo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]  
                     + "\n\tTipo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9]
                     + "\n\tMAC fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
                     + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
@@ -455,7 +454,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     +"\n\tProtocolo: "+tipoEthernet
                     //información IP
                     +"\nInternet Protocol Version 4"         
-                    + "\n\tVersión:" + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
+                    + "\n\tVersión: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
                     + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5] + " bytes"                                
                     + "\n\tLongitud Data: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7] + " bytes"              
                     + "\n\tProtocolo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8]

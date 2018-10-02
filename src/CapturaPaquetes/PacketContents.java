@@ -92,9 +92,8 @@ public class PacketContents implements PacketReceiver {
                 //adicionar objeto de atributos del paquete
                 listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, 
                     packet.len, icmp.src_ip, icmp.dst_ip, "ICMP", icmp.checksum, icmp.header.length,
-                    icmp.offset, icmp.orig_timestamp, icmp.recv_timestamp, 
-                    icmp.trans_timestamp, icmp.data, icmp.protocol,dateFormat.format(date),
-                    icmp.data.length, ip.version });
+                    icmp.offset, icmp.data, icmp.protocol,dateFormat.format(date),
+                    icmp.data.length, ip.version, icmp.type, icmp.code });
                 
                 //adicionar row a jtable y aumentar en 1 el número de paquete
                 model.addRow(row);
