@@ -450,12 +450,16 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             String stringDataICMP = new String(byteDataICMP);
 
             short shortChecksum = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[5];
-            String intHexStringChecksum = Integer.toHexString(shortChecksum);
-            String shortHexStringChecksum = "0x" + intHexStringChecksum.substring(4);
+            String intHexStringChecksum = Integer.toHexString(shortChecksum);            
+            String shortHexStringChecksum = "0x" + intHexStringChecksum;
 
             short shortSecuencia = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[15];
-            String intHexStringSecuencia = Integer.toHexString(shortSecuencia);
-            String shortHexStringSecuencia = "0x" + intHexStringSecuencia.substring(4);
+            String intHexStringSecuencia = Integer.toHexString(shortSecuencia);            
+            String shortHexStringSecuencia = "0x" + intHexStringSecuencia;
+            
+            short shortIdentificador = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[16];
+            String intHexStringIdentificador = Integer.toHexString(shortIdentificador);            
+            String shortHexStringIdentificador = "0x" + intHexStringIdentificador;
 
             jTextAreaDetalles.setText(
                     //información del paquete
@@ -484,8 +488,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tTipo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[13]
                     + "\n\tCódigo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[14]
                     + "\n\tChecksum: " + shortHexStringChecksum
-                    + "\n\tNúmero de secuencia: " + shortHexStringSecuencia
-                    + "\n\tIdentificador: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[16]
+                    + "\n\tNúmero de secuencia: " + shortSecuencia + " (" +shortHexStringSecuencia + ")"
+                    + "\n\tIdentificador: " + shortIdentificador + " (" +shortHexStringIdentificador + ")"
                     + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
                     + "\n\tData: " + stringDataICMP
             );
