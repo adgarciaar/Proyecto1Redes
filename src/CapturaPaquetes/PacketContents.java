@@ -124,16 +124,7 @@ public class PacketContents implements PacketReceiver {
             }
         }else if (packet instanceof ARPPacket) {
             //conversión de paquete a su paquete más específico
-            arp = (ARPPacket) packet;
-            //distinguir si es de tipo Request o Reply
-            String tipoARP = arp.toString();            
-            int firstIndex = tipoARP.indexOf("REQUEST");
-            String tipo="";
-            if(firstIndex==-1){
-                tipo="Reply";
-            }else{
-                tipo="Request";
-            }
+            arp = (ARPPacket) packet;            
             //crear row para el jtable
             Object[] row = {AnalizadorPaquetes.numeroPaquete, estimatedTime, 
                 arp.getSenderHardwareAddress(), arp.getTargetHardwareAddress(), 
@@ -142,7 +133,8 @@ public class PacketContents implements PacketReceiver {
             listaAtributosPaquetes.add(new Object[]{AnalizadorPaquetes.numeroPaquete, 
                 arp.len, arp.getSenderHardwareAddress(), arp.getSenderProtocolAddress(),
                 arp.getTargetHardwareAddress(), arp.getTargetProtocolAddress(),
-                "ARP", arp.header.length,arp.data.length, tipo,dateFormat.format(date) });           
+                "ARP", arp.header.length,arp.data.length, arp.operation,dateFormat.format(date)
+                ,arp.hardtype, arp.prototype, arp.hlen, arp.plen });           
             //adicionar row a jtable y aumentar en 1 el número de paquete
             model.addRow(row);
             AnalizadorPaquetes.numeroPaquete++;

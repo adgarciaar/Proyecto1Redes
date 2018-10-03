@@ -106,8 +106,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextAreaDetalles = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTablePaquetes = new javax.swing.JTable(){
-            public boolean isCellEditable(int row, int column){
+        jTablePaquetes = new javax.swing.JTable() {
+            public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
@@ -163,19 +163,17 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
 
         jTablePaquetes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jTablePaquetes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Número", "Tiempo (s)", "Fuente", "Destino", "Protocolo", "Longitud (bytes)"
-            }
+                new Object[][]{},
+                new String[]{
+                    "Número", "Tiempo (s)", "Fuente", "Destino", "Protocolo", "Longitud (bytes)"
+                }
         ) {
-            Class[] types = new Class [] {
+            Class[] types = new Class[]{
                 java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
         });
         jTablePaquetes.setRowHeight(20);
@@ -189,53 +187,53 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonRegresar)
-                .addGap(195, 195, 195)
-                .addComponent(jButtonSalir)
-                .addGap(415, 415, 415))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane4)
-                    .addComponent(jScrollPane2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBoxInterfaces, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonCapturar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonDetener, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3))
-                            .addComponent(jLabel1))))
-                .addContainerGap(44, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonRegresar)
+                                .addGap(195, 195, 195)
+                                .addComponent(jButtonSalir)
+                                .addGap(415, 415, 415))
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jScrollPane4)
+                                        .addComponent(jScrollPane2)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(9, 9, 9)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(jLabel2)
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(jComboBoxInterfaces, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(jButtonCapturar)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(jButtonDetener, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(3, 3, 3))
+                                                        .addComponent(jLabel1))))
+                                .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1)
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCapturar)
-                    .addComponent(jComboBoxInterfaces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jButtonDetener))
-                .addGap(23, 23, 23)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonRegresar)
-                    .addComponent(jButtonSalir))
-                .addGap(25, 25, 25))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(jLabel1)
+                                .addGap(24, 24, 24)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jButtonCapturar)
+                                        .addComponent(jComboBoxInterfaces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jButtonDetener))
+                                .addGap(23, 23, 23)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(22, 22, 22)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jButtonRegresar)
+                                        .addComponent(jButtonSalir))
+                                .addGap(25, 25, 25))
         );
 
         pack();
@@ -289,6 +287,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
         System.exit(0); //finalizar ejecución del programa
     }//GEN-LAST:event_jButtonSalirActionPerformed
     //evento de seleccionar un paquete en el JTable
+
     private void jTablePaquetesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePaquetesMouseClicked
         jTextAreaDetalles.setText(""); //limpiar el JTextArea
         //conseguir el número de paquete seleccionado
@@ -336,59 +335,64 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             boolean rst = (boolean) PacketContents.listaAtributosPaquetes.get(nPaquete)[19];
             boolean syn = (boolean) PacketContents.listaAtributosPaquetes.get(nPaquete)[20];
             boolean fin = (boolean) PacketContents.listaAtributosPaquetes.get(nPaquete)[21];
-            
+
             int reservadoInt;
             int urgInt;
             int pshInt;
             int rstInt;
             int synInt;
             int finInt;
-            
+
             short punteroUrgente = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[23];
-                 
-            if (reservado == true)
+
+            if (reservado == true) {
                 reservadoInt = 1;
-            else
+            } else {
                 reservadoInt = 0;
-            
-            if (urg == true)
+            }
+
+            if (urg == true) {
                 urgInt = 1;
-            else
+            } else {
                 urgInt = 0;
-            
-            if (psh == true)
+            }
+
+            if (psh == true) {
                 pshInt = 1;
-            else
+            } else {
                 pshInt = 0;
-            
-            if (rst == true)
+            }
+
+            if (rst == true) {
                 rstInt = 1;
-            else
+            } else {
                 rstInt = 0;
-            
-            if (syn == true)
+            }
+
+            if (syn == true) {
                 synInt = 1;
-            else
+            } else {
                 synInt = 0;
-            
-            if (fin == true)
+            }
+
+            if (fin == true) {
                 finInt = 1;
-            else
+            } else {
                 finInt = 0;
-            
+            }
+
             jTextAreaDetalles.setText(
                     //información del paquete
                     "Paquete " + (nPaquete + 1)
+                    + "\n\tInterface: " + indiceInterface + " " + listaInterfaces[indiceInterface].name
                     + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[14]
                     + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"
-                    //información Ethernet
-                    + "\n"        
+                    //información Ethernet                           
                     + "\nEthernet"
                     + "\n\tFuente: " + macFuente
                     + "\n\tDestino: " + macDestino
                     + "\n\tProtocolo: " + tipoEthernet
-                    //información IP
-                    + "\n"
+                    //información IP                    
                     + "\nInternet Protocol Version 4"
                     + "\n\tVersión: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[15]
                     + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[12] + " bytes"
@@ -397,8 +401,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + " (" + PacketContents.listaAtributosPaquetes.get(nPaquete)[13] + ")"
                     + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
                     + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
-                    //información TCP
-                    + "\n"
+                    //información TCP                    
                     + "\nTransmission Control Protocol"
                     + "\n\tPuerto fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5]
                     + "\n\tPuerto destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]
@@ -406,7 +409,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tAck: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
                     + "\n\tAck No: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[8]
                     + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[11]
-                    + "\n\tFlag: "        
+                    + "\n\tFlag: "
                     + "\n\t\tReservado: " + reservadoInt
                     + "\n\t\tURG: " + urgInt
                     + "\n\t\tPSH: " + pshInt
@@ -421,6 +424,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             jTextAreaDetalles.setText(
                     //información del paquete
                     "Paquete " + (nPaquete + 1)
+                    + "\n\tInterface: " + indiceInterface + " " + listaInterfaces[indiceInterface].name
                     + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[11]
                     + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"
                     //información Ethernet
@@ -450,24 +454,24 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             String stringDataICMP = new String(byteDataICMP);
 
             short shortChecksum = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[5];
-            String intHexStringChecksum = Integer.toHexString(shortChecksum);            
+            String intHexStringChecksum = Integer.toHexString(shortChecksum);
             String shortHexStringChecksum = "0x" + intHexStringChecksum;
 
             short shortSecuencia = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[15];
-            String intHexStringSecuencia = Integer.toHexString(shortSecuencia);            
+            String intHexStringSecuencia = Integer.toHexString(shortSecuencia);
             String shortHexStringSecuencia = "0x" + intHexStringSecuencia;
-            
+
             short shortIdentificador = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[16];
-            String intHexStringIdentificador = Integer.toHexString(shortIdentificador);            
+            String intHexStringIdentificador = Integer.toHexString(shortIdentificador);
             String shortHexStringIdentificador = "0x" + intHexStringIdentificador;
 
             //short shortTTL = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[17];
             //String intHexStringTTL = Integer.toHexString(shortIdentificador);            
             //String shortHexStringTTL = intHexStringTTL;            
-                    
             jTextAreaDetalles.setText(
                     //información del paquete
                     "Paquete " + (nPaquete + 1)
+                    + "\n\tInterface: " + indiceInterface + " " + listaInterfaces[indiceInterface].name
                     + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
                     + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"
                     + "\n"
@@ -492,8 +496,8 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tTipo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[13]
                     + "\n\tCódigo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[14]
                     + "\n\tChecksum: " + shortHexStringChecksum
-                    + "\n\tNúmero de secuencia: " + shortSecuencia + " (" +shortHexStringSecuencia + ")"
-                    + "\n\tIdentificador: " + shortIdentificador + " (" +shortHexStringIdentificador + ")"
+                    + "\n\tNúmero de secuencia: " + shortSecuencia + " (" + shortHexStringSecuencia + ")"
+                    + "\n\tIdentificador: " + shortIdentificador + " (" + shortHexStringIdentificador + ")"
                     + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7]
                     //+ "\n\tTime to live: " + shortHexStringTTL      
                     + "\n\tData: " + stringDataICMP
@@ -501,9 +505,67 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
 
         } else if (PacketContents.listaAtributosPaquetes.get(nPaquete)[6] == "ARP") {
 
+            String tipoARP = "";
+            short operacion = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[9];
+
+            switch (operacion) {
+                case 1:
+                    tipoARP = "ARP REQUEST";
+                    break;
+                case 2:
+                    tipoARP = "ARP REPLY";
+                    break;
+                case 3:
+                    tipoARP = "RARP REQUEST";
+                    break;
+                case 4:
+                    tipoARP = "RARP REPLY";
+                    break;
+                case 8:
+                    tipoARP = "INV REQUEST";
+                    break;
+                case 9:
+                    tipoARP = "INV REPLY";
+                    break;
+                default:
+                    tipoARP = "UNKNOWN";
+                    break;
+            }
+            
+            String tipoHardware = "";
+            short hardType = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[11];
+
+            switch (hardType) {
+                case 1:
+                    tipoHardware = "HARDTYPE_ETHER";
+                    break;  
+                case 6:
+                    tipoHardware = "HARDTYPE_IEEE802";
+                    break;
+                case 15:
+                    tipoHardware = "HARDTYPE_FRAMERELAY";
+                    break;                    
+                default:
+                    tipoHardware = "UNKNOWN";
+                    break;
+            }
+            
+            String tipoProtocolo = "";
+            short protocolType = (short) PacketContents.listaAtributosPaquetes.get(nPaquete)[12];
+
+            switch (protocolType) {
+                case 2048:
+                    tipoProtocolo = "IPv4 (0x0800)";
+                    break;               
+                default:
+                    tipoProtocolo = "UNKNOWN ("+protocolType+")";
+                    break;
+            }
+
             jTextAreaDetalles.setText(
                     //información del paquete
                     "Paquete " + (nPaquete + 1)
+                    + "\n\tInterface: " + indiceInterface + " " + listaInterfaces[indiceInterface].name
                     + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
                     + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"
                     + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[7] + " bytes"
@@ -516,7 +578,11 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     //información ARP
                     + "\nAddress Resolution Protocol"
                     + "\n\tProtocolo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]
-                    + "\n\tTipo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9]
+                    + "\n\tTipo: " + tipoARP
+                    + "\n\tTipo hardware: " + tipoHardware + "(" + hardType + ")"
+                    + "\n\tTipo protocolo: " + tipoProtocolo
+                    + "\n\tTamaño hardware: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[13]
+                    + "\n\tTamaño protocolo: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[14]                    
                     + "\n\tMAC fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
                     + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
                     + "\n\tMAC destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[4]
@@ -524,24 +590,25 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
             );
         } else {
             String tipoProtocolo = "";
-            if("ICMP fragmentado".equals(PacketContents.listaAtributosPaquetes.get(nPaquete)[8])){
+            if ("ICMP fragmentado".equals(PacketContents.listaAtributosPaquetes.get(nPaquete)[8])) {
                 tipoProtocolo = "ICMP fragmentado";
-            }else{
+            } else {
                 tipoProtocolo = "Protocolo";
             }
             jTextAreaDetalles.setText(
                     //información del paquete
                     "Paquete " + (nPaquete + 1)
+                    + "\n\tInterface: " + indiceInterface + " " + listaInterfaces[indiceInterface].name
                     + "\n\tTiempo de llegada: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[9]
                     + "\n\tLongitud: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[1] + " bytes"
                     //información Ethernet
-                    + "\n"        
+                    + "\n"
                     + "\nEthernet"
                     + "\n\tFuente: " + macFuente
                     + "\n\tDestino: " + macDestino
                     + "\n\tProtocolo: " + tipoEthernet
                     //información IP
-                    + "\n"         
+                    + "\n"
                     + "\nInternet Protocol Version 4"
                     + "\n\tVersión: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[10]
                     + "\n\tLongitud Header: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[5] + " bytes"
@@ -551,7 +618,7 @@ public class AnalizadorPaquetes extends javax.swing.JFrame {
                     + "\n\tIP fuente: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[2]
                     + "\n\tIP destino: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[3]
                     //información protocolo
-                    + "\n"         
+                    + "\n"
                     + "\n" + tipoProtocolo
                     + "\n\tOffset: " + PacketContents.listaAtributosPaquetes.get(nPaquete)[6]
             );
