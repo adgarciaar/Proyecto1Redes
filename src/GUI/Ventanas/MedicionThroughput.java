@@ -115,7 +115,7 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
             //se muestra en Kbps, y si <1 Kbps se muestra en bytes
             if (this.throughputRecibido < 1) {
                 if (this.throughputRecibido < 0.001) {
-                    this.jLabelRecibido.setText("Recibido: " + round(throughputRecibido * 1000000, 2) + " bytes");
+                    this.jLabelRecibido.setText("Recibido: " + round(throughputRecibido * 1000000, 2) + " bps");
                 } else {
                     this.jLabelRecibido.setText("Recibido: " + round(throughputRecibido * 1000, 2) + " Kbps");
                 }
@@ -124,7 +124,7 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
             }
             if (this.throughputEnviado < 1) {
                 if (this.throughputEnviado < 0.001) {
-                    this.jLabelEnviado.setText("Recibido: " + round(throughputEnviado * 1000000, 2) + " bytes");
+                    this.jLabelEnviado.setText("Recibido: " + round(throughputEnviado * 1000000, 2) + " bps");
                 } else {
                     this.jLabelEnviado.setText("Enviado: " + round(throughputEnviado * 1000, 2) + " Kbps");
                 }
@@ -227,10 +227,10 @@ public class MedicionThroughput extends javax.swing.JFrame implements ActionList
         );
 
         jLabelEnviado.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabelEnviado.setText("Enviado: 0.00 bytes");
+        jLabelEnviado.setText("Enviado: 0.00 bps");
 
         jLabelRecibido.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabelRecibido.setText("Recibido: 0.00 bytes");
+        jLabelRecibido.setText("Recibido: 0.00 bps");
 
         jLabel2.setText("Interfaces:");
 
